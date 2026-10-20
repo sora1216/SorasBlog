@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="个人资料库：工作文件、喜欢的图片和音乐，都收在这里。">
+  <meta name="theme-color" content="#fbf5f2">
+  <title>我的资料库 · 个人主页</title>
+
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <!-- 主题在首帧前应用，避免闪烁 -->
+  <script>
+    (function () {
+      try {
+        var saved = localStorage.getItem('atlas-theme');
+        var theme = saved || 'light';
+        document.documentElement.setAttribute('data-theme', theme);
+      } catch (e) { /* ignore */ }
+    })();
+  </script>
+</head>
+<body class="is-visitor">
+
+  <!-- ============ 图标库 ============ -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol fill="none" id="i-play" viewBox="0 0 24 24"><path d="M8 5.6v12.8a.8.8 0 0 0 1.22.68l10.1-6.4a.8.8 0 0 0 0-1.36L9.22 4.92A.8.8 0 0 0 8 5.6Z" fill="currentColor"/></symbol>
+    <symbol fill="none" id="i-pause" viewBox="0 0 24 24"><rect x="7" y="5" width="3.4" height="14" rx="1.4" fill="currentColor"/><rect x="13.6" y="5" width="3.4" height="14" rx="1.4" fill="currentColor"/></symbol>
+    <symbol fill="none" id="i-prev" viewBox="0 0 24 24"><path d="M6 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 6.2v11.6a.7.7 0 0 1-1.08.59l-8.6-5.8a.7.7 0 0 1 0-1.18l8.6-5.8A.7.7 0 0 1 19 6.2Z" fill="currentColor"/></symbol>
+    <symbol fill="none" id="i-next" viewBox="0 0 24 24"><path d="M18 5.5v13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M5 6.2v11.6a.7.7 0 0 0 1.08.59l8.6-5.8a.7.7 0 0 0 0-1.18l-8.6-5.8A.7.7 0 0 0 5 6.2Z" fill="currentColor"/></symbol>
+    <symbol fill="none" id="i-volume" viewBox="0 0 24 24"><path d="M4 10v4h3.6L13 18V6L7.6 10H4Z" fill="currentColor"/><path d="M16.2 8.4a5 5 0 0 1 0 7.2M18.8 5.8a8.6 8.6 0 0 1 0 12.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 11V9a4 4 0 0 1 4-4h14M7 22l-4-4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M21 13v2a4 4 0 0 1-4 4H3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-music" viewBox="0 0 24 24"><path d="M9 18V5.5l10-2v12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="6.5" cy="18" r="2.6" stroke="currentColor" stroke-width="1.8"/><circle cx="16.5" cy="15.5" r="2.6" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol fill="none" id="i-upload" viewBox="0 0 24 24"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 15v3.5A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5V15" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.8A.8.8 0 0 1 9.8 4h4.4a.8.8 0 0 1 .8.8V7M6.5 7l.8 12a1.5 1.5 0 0 0 1.5 1.4h6.4a1.5 1.5 0 0 0 1.5-1.4L17.5 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 11v5M14 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-image" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="15" rx="2.5" stroke="currentColor" stroke-width="1.8"/><circle cx="8.5" cy="9.5" r="1.6" stroke="currentColor" stroke-width="1.6"/><path d="m4 17 4.8-4.6a1.6 1.6 0 0 1 2.2 0l3 2.9 2-1.9a1.6 1.6 0 0 1 2.2 0L21 15.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-file" viewBox="0 0 24 24"><path d="M13.5 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8.5L13.5 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M13.5 3v5.5H19" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-link" viewBox="0 0 24 24"><path d="M10.5 13.5a4 4 0 0 0 5.7 0l2.6-2.6a4 4 0 1 0-5.7-5.7L11.6 6.7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M13.5 10.5a4 4 0 0 0-5.7 0l-2.6 2.6a4 4 0 1 0 5.7 5.7l1.5-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4.2L19.5 8.7a2 2 0 0 0 0-2.8l-1.4-1.4a2 2 0 0 0-2.8 0L4 15.8V20Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m13.8 6 4.2 4.2" stroke="currentColor" stroke-width="1.8"/></symbol>
+    <symbol fill="none" id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.8"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.2 5.2l1.4 1.4M17.4 17.4l1.4 1.4M18.8 5.2l-1.4 1.4M6.6 17.4l-1.4 1.4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-moon" viewBox="0 0 24 24"><path d="M20 14.2A8.2 8.2 0 0 1 9.8 4 8.5 8.5 0 1 0 20 14.2Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-chevron-up" viewBox="0 0 24 24"><path d="m6 14.5 6-6 6 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9.5 6 6 6-6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-chevron-left" viewBox="0 0 24 24"><path d="m14.5 6-6 6 6 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-chevron-right" viewBox="0 0 24 24"><path d="m9.5 6 6 6-6 6" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4.5 4.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-cloud" viewBox="0 0 24 24"><path d="M7.5 18.5h9a4 4 0 0 0 .62-7.95A5.5 5.5 0 0 0 6.62 9.6 4.5 4.5 0 0 0 7.5 18.5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M12 16v-5m0 0-1.8 1.8M12 11l1.8 1.8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="10" rx="2.5" stroke="currentColor" stroke-width="1.8"/><path d="M8 10V7.8a4 4 0 0 1 8 0V10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M12 14v2.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-github" viewBox="0 0 24 24"><path d="M12 2a10 10 0 0 0-3.16 19.49c.5.09.68-.22.68-.48l-.01-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.9-.62.07-.61.07-.61 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02A9.6 9.6 0 0 1 12 6.8c.85 0 1.7.11 2.5.34 1.9-1.3 2.74-1.02 2.74-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.35 4.68-4.58 4.93.36.31.68.92.68 1.85l-.01 2.74c0 .27.18.58.69.48A10 10 0 0 0 12 2Z" fill="currentColor"/></symbol>
+    <symbol fill="none" id="i-bilibili" viewBox="0 0 24 24"><rect x="3.2" y="7" width="17.6" height="13" rx="3.4" stroke="currentColor" stroke-width="1.7"/><path d="m7.5 3 3 3.2M16.5 3l-3 3.2" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M8.4 11.2v2.2M15.6 11.2v2.2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/><path d="M10.2 15.8c1.1.7 2.5.7 3.6 0" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></symbol>
+    <symbol fill="none" id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.6" stroke="currentColor" stroke-width="1.8"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-pin" viewBox="0 0 24 24"><path d="M12 21s6.5-5.6 6.5-11a6.5 6.5 0 1 0-13 0C5.5 15.4 12 21 12 21Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="10" r="2.4" stroke="currentColor" stroke-width="1.7"/></symbol>
+    <symbol fill="none" id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M3 12h18M12 3c2.4 2.5 3.6 5.6 3.6 9s-1.2 6.5-3.6 9c-2.4-2.5-3.6-5.6-3.6-9S9.6 5.5 12 3Z" stroke="currentColor" stroke-width="1.6"/></symbol>
+    <symbol fill="none" id="i-arrow-up-right" viewBox="0 0 24 24"><path d="M7 17 17 7M9 7h8v8" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.6 4.5L19 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-folder" viewBox="0 0 24 24"><path d="M3.5 6.8A2.3 2.3 0 0 1 5.8 4.5h3.4l2 2.4h7A2.3 2.3 0 0 1 20.5 9v8.2a2.3 2.3 0 0 1-2.3 2.3H5.8a2.3 2.3 0 0 1-2.3-2.3V6.8Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-shield" viewBox="0 0 24 24"><path d="M12 3 5 5.8v5.1c0 4.5 2.9 8.2 7 9.9 4.1-1.7 7-5.4 7-9.9V5.8L12 3Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="m9 12 2.2 2.2L15.4 10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol fill="none" id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3.5c.6 3.7 2.3 5.4 6 6-3.7.6-5.4 2.3-6 6-.6-3.7-2.3-5.4-6-6 3.7-.6 5.4-2.3 6-6Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M18.5 15.5c.3 1.7 1 2.4 2.7 2.7-1.7.3-2.4 1-2.7 2.7-.3-1.7-1-2.4-2.7-2.7 1.7-.3 2.4-1 2.7-2.7Z" fill="currentColor"/></symbol>
+    <symbol fill="none" id="i-dots" viewBox="0 0 24 24"><circle cx="5.5" cy="12" r="1.6" fill="currentColor"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><circle cx="18.5" cy="12" r="1.6" fill="currentColor"/></symbol>
+  </svg>
+
+  <!-- ============ 背景氛围 ============ -->
+  <div class="ambient" aria-hidden="true">
+    <span class="orb orb-a"></span>
+    <span class="orb orb-b"></span>
+    <span class="orb orb-c"></span>
+    <span class="grain"></span>
+  </div>
+
+  <!-- ============ 顶栏 ============ -->
+  <header class="site-header" id="siteHeader">
+    <div class="header-inner container">
+      <a class="brand" href="#top" aria-label="回到顶部">
+        <span class="brand-avatar" id="brandAvatar">
+          <img src="assets/img/avatar-default.jpg" alt="" id="brandAvatarImg">
+        </span>
+        <span class="brand-text">
+          <strong id="brandName">你的名字</strong>
+          <small>PERSONAL SPACE</small>
+        </span>
+      </a>
+
+      <nav class="site-nav" aria-label="主导航">
+        <a href="#profile">名片</a>
+        <a href="#files">资料</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-btn publish-btn" id="publishBtn" type="button" aria-label="发布设置" title="发布与公开资料设置">
+          <svg class="icon"><use href="#i-cloud"></use></svg>
+          <span class="publish-label">发布</span>
+        </button>
+        <button class="icon-btn" id="themeToggle" type="button" aria-label="切换明暗主题" title="切换明暗主题">
+          <svg class="icon icon-moon"><use href="#i-moon"></use></svg>
+          <svg class="icon icon-sun"><use href="#i-sun"></use></svg>
+        </button>
+        <button class="btn btn-ghost btn-sm" id="editProfileTop" type="button">
+          <svg class="icon"><use href="#i-edit"></use></svg>
+          <span>编辑名片</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ 主视觉 ============ -->
+    <section class="hero container" aria-label="个人空间">
+      <div class="hero-card">
+        <img class="hero-bg" id="heroBg" src="assets/img/cover-default.jpg" alt="首页封面">
+        <div class="hero-shade" aria-hidden="true"></div>
+
+        <div class="hero-content">
+          <span class="hero-eyebrow">
+            <span class="pulse-dot"></span>
+            <span id="heroStatus">开放交流</span>
+            <span class="eyebrow-sep">/</span>
+            <span id="heroYear">2026</span>
+          </span>
+
+          <h1 class="hero-title" id="heroTitle">我的资料库</h1>
+          <p class="hero-subtitle" id="heroSubtitle">工作文件、喜欢的图片和循环播放的歌，都收在这里。</p>
+
+          <div class="hero-tags" id="heroTags"></div>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#files">
+              <svg class="icon"><use href="#i-folder"></use></svg>
+              浏览资料
+            </a>
+            <button class="btn btn-glass" id="heroPlayBtn" type="button">
+              <svg class="icon"><use href="#i-play"></use></svg>
+              播放音乐
+            </button>
+          </div>
+        </div>
+
+        <div class="hero-foot">
+          <div class="hero-meta">
+            <span><strong id="heroFileCount">0</strong> 份资料</span>
+            <span class="dot-sep"></span>
+            <span><strong id="heroTrackCount">0</strong> 首歌</span>
+          </div>
+          <div class="hero-foot-actions">
+            <button class="chip chip-ghost" id="resetCoverBtn" type="button" hidden>
+              <svg class="icon"><use href="#i-image"></use></svg>
+              恢复默认
+            </button>
+            <button class="chip chip-ghost" id="changeCoverBtn" type="button">
+              <svg class="icon"><use href="#i-image"></use></svg>
+              更换封面
+            </button>
+          </div>
+        </div>
+
+        <span class="hero-corner" aria-hidden="true">PORTFOLIO · LIBRARY</span>
+      </div>
+    </section>
+
+    <!-- ============ 名片 ============ -->
+    <section class="section container reveal" id="profile">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">PROFILE</span>
+          <h2>个人名片</h2>
+        </div>
+        <span class="section-aside" id="profileAside">在这里介绍你自己</span>
+      </div>
+
+      <div class="profile-card panel">
+        <div class="profile-main">
+          <div class="avatar-wrap">
+            <img class="avatar" id="profileAvatar" src="assets/img/avatar-default.jpg" alt="头像">
+            <span class="status-dot" title="在线"></span>
+          </div>
+
+          <div class="profile-info">
+            <div class="profile-name-row">
+              <h3 id="profileName">你的名字</h3>
+              <span class="badge" id="profileBadge">创作者</span>
+            </div>
+            <p class="profile-headline" id="profileHeadline">独立创作者 / 记录者</p>
+            <p class="profile-bio" id="profileBio">
+              这里是我的个人主页。我把工作用的文件、喜欢的图片和常听的音乐整理在一起，随时更换，随时删除。
+            </p>
+
+            <div class="profile-tags" id="profileTags"></div>
+
+            <div class="profile-links" id="profileLinks"></div>
+          </div>
+        </div>
+
+        <aside class="profile-side">
+          <div class="stats">
+            <div class="stat">
+              <strong id="statFiles">0</strong>
+              <span>资料</span>
+            </div>
+            <div class="stat">
+              <strong id="statTracks">0</strong>
+              <span>音乐</span>
+            </div>
+          </div>
+          <button class="btn btn-soft btn-block" id="editProfileBtn" type="button">
+            <svg class="icon"><use href="#i-edit"></use></svg>
+            编辑名片
+          </button>
+          <p class="side-note">
+            <svg class="icon"><use href="#i-cloud"></use></svg>
+            名片与资料可发布到 GitHub
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ 资料 ============ -->
+    <section class="section container reveal" id="files">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">FILES</span>
+          <h2>工作资料 <span class="count-pill" id="fileCount">0</span></h2>
+        </div>
+        <div class="head-actions">
+          <button class="btn btn-ghost btn-sm owner-only" id="addFileLinkBtn" type="button">
+            <svg class="icon"><use href="#i-link"></use></svg>
+            链接添加
+          </button>
+          <button class="btn btn-primary btn-sm owner-only" id="addFilesBtn" type="button">
+            <svg class="icon"><use href="#i-upload"></use></svg>
+            上传文件
+          </button>
+        </div>
+      </div>
+
+      <div class="notice owner-only" id="localNotice">
+        <div class="notice-icon">
+          <svg class="icon"><use href="#i-cloud"></use></svg>
+        </div>
+        <div class="notice-body">
+          <strong>资料发布在 GitHub，访客可以直接下载</strong>
+          <p>上传会提交到仓库的 <code>public/files/</code>，再由 GitHub Pages 自动更新；删除时也会同时从仓库移除。</p>
+        </div>
+        <div class="notice-actions">
+          <button class="btn btn-soft btn-xs" id="noticeExportBtn" type="button">导出备份</button>
+          <button class="icon-btn icon-btn-sm" id="noticeCloseBtn" type="button" aria-label="关闭提示">
+            <svg class="icon"><use href="#i-x"></use></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="files-panel panel" id="filesPanel">
+        <div class="files-toolbar">
+          <label class="search-box">
+            <svg class="icon"><use href="#i-search"></use></svg>
+            <input type="search" id="fileSearch" placeholder="搜索文件名…" autocomplete="off">
+          </label>
+
+          <div class="toolbar-right">
+            <div class="storage">
+              <div class="storage-text">
+                <span id="storageText">0 B 公开</span>
+                <span class="storage-hint">公开资料</span>
+              </div>
+              <div class="storage-bar"><span id="storageBar"></span></div>
+            </div>
+            <button class="icon-btn owner-only" id="exportBtn" type="button" title="导出备份" aria-label="导出备份">
+              <svg class="icon"><use href="#i-download"></use></svg>
+            </button>
+            <button class="icon-btn owner-only" id="importBtn" type="button" title="导入备份" aria-label="导入备份">
+              <svg class="icon"><use href="#i-upload"></use></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="dropzone owner-only" id="dropzone">
+          <div class="dropzone-inner">
+            <svg class="icon"><use href="#i-upload"></use></svg>
+            <p>把文件拖到这里，或 <button class="link-btn" type="button" id="dropzoneBrowse">点击选择</button></p>
+            <span>支持任意格式，单个文件不超过 25 MB</span>
+          </div>
+        </div>
+
+        <div class="file-list" id="fileList"></div>
+
+        <div class="empty-state empty-state-inline" id="filesEmpty" hidden>
+          <div class="empty-art">
+            <svg class="icon"><use href="#i-folder"></use></svg>
+          </div>
+          <h3>资料架还是空的</h3>
+          <p>上传工作文档、表格、压缩包或任何需要的文件，随时下载、随时删除。</p>
+          <div class="empty-actions">
+            <button class="btn btn-primary btn-sm owner-only" data-action="add-files" type="button">
+              <svg class="icon"><use href="#i-upload"></use></svg>
+              上传第一份资料
+            </button>
+            <button class="btn btn-ghost btn-sm owner-only" data-action="add-file-link" type="button">
+              <svg class="icon"><use href="#i-link"></use></svg>
+              使用文件链接
+            </button>
+          </div>
+        </div>
+
+        <div class="no-results" id="fileNoResults" hidden>
+          没有找到匹配的文件，换个关键词试试。
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <span class="footer-mark">∞</span>
+        <div>
+          <strong id="footerName">你的名字</strong>
+          <p>用喜欢的方式，整理自己的工作与生活。</p>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <span>© <span id="footerYear">2026</span> <span id="footerName2">你的名字</span></span>
+        <span class="dot-sep"></span>
+        <span>Built for GitHub Pages</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ 音乐播放器 ============ -->
+  <aside class="player" id="player" aria-label="音乐播放器">
+    <audio id="audio" preload="metadata"></audio>
+
+    <div class="player-panel" id="playerPanel" hidden>
+      <div class="pp-head">
+        <div class="pp-cover" id="ppCover">
+          <svg class="icon"><use href="#i-music"></use></svg>
+        </div>
+        <div class="pp-titles">
+          <strong id="ppTitle">尚未选择音乐</strong>
+          <span id="ppArtist">上传一首歌，开始播放</span>
+        </div>
+        <button class="icon-btn icon-btn-sm" id="addTrackBtn" type="button" title="添加音乐" aria-label="添加音乐">
+          <svg class="icon"><use href="#i-plus"></use></svg>
+        </button>
+      </div>
+
+      <div class="pp-seek">
+        <input class="range" type="range" id="seekBar" min="0" max="1000" value="0" step="1" aria-label="播放进度">
+        <div class="pp-times">
+          <span id="timeCurrent">0:00</span>
+          <span id="timeTotal">0:00</span>
+        </div>
+      </div>
+
+      <div class="pp-controls">
+        <button class="icon-btn" id="prevBtn" type="button" title="上一首" aria-label="上一首">
+          <svg class="icon"><use href="#i-prev"></use></svg>
+        </button>
+        <button class="pb-play pb-play-lg" id="playBtn" type="button" title="播放 / 暂停" aria-label="播放">
+          <svg class="icon icon-play"><use href="#i-play"></use></svg>
+          <svg class="icon icon-pause"><use href="#i-pause"></use></svg>
+        </button>
+        <button class="icon-btn" id="nextBtn" type="button" title="下一首" aria-label="下一首">
+          <svg class="icon"><use href="#i-next"></use></svg>
+        </button>
+        <button class="icon-btn" id="repeatBtn" type="button" title="循环模式：关闭" aria-label="循环模式">
+          <svg class="icon"><use href="#i-repeat"></use></svg>
+        </button>
+        <label class="volume">
+          <svg class="icon"><use href="#i-volume"></use></svg>
+          <input class="range range-sm" type="range" id="volumeBar" min="0" max="100" value="80" step="1" aria-label="音量">
+        </label>
+      </div>
+
+      <div class="pp-list-head">
+        <span>播放列表 <em id="trackCount">0</em></span>
+        <div class="pp-list-actions">
+          <button class="link-btn" id="publishTracksBtn" type="button" hidden>发布音乐</button>
+          <button class="link-btn" id="addTrackLink" type="button">添加音乐</button>
+        </div>
+      </div>
+      <ul class="playlist" id="playlist"></ul>
+      <p class="pp-empty" id="playlistEmpty">还没有音乐，点击「添加音乐」上传本地音频。</p>
+    </div>
+
+    <div class="player-bar">
+      <button class="vinyl" id="vinylBtn" type="button" aria-label="展开播放器">
+        <span class="vinyl-art" id="vinylArt">
+          <svg class="icon"><use href="#i-music"></use></svg>
+        </span>
+        <span class="vinyl-hole" aria-hidden="true"></span>
+      </button>
+      <div class="pb-meta">
+        <strong id="pbTitle">尚未选择音乐</strong>
+        <span id="pbArtist">点击右侧播放</span>
+      </div>
+      <button class="pb-play" id="pbPlay" type="button" title="播放 / 暂停" aria-label="播放">
+        <svg class="icon icon-play"><use href="#i-play"></use></svg>
+        <svg class="icon icon-pause"><use href="#i-pause"></use></svg>
+      </button>
+      <button class="pb-expand" id="expandBtn" type="button" title="展开播放器" aria-label="展开播放器">
+        <svg class="icon"><use href="#i-chevron-up"></use></svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ============ 名片编辑 ============ -->
+  <div class="modal" id="profileModal" hidden>
+    <div class="modal-backdrop" data-close="profileModal"></div>
+    <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="profileModalTitle">
+      <header class="modal-head">
+        <div>
+          <span class="eyebrow">EDIT</span>
+          <h3 id="profileModalTitle">编辑个人名片</h3>
+        </div>
+        <button class="icon-btn" type="button" data-close="profileModal" aria-label="关闭">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+
+      <form id="profileForm" class="modal-body">
+        <div class="avatar-editor">
+          <div class="avatar-preview">
+            <img id="avatarPreview" src="assets/img/avatar-default.jpg" alt="头像预览">
+          </div>
+          <div class="avatar-editor-side">
+            <strong>头像</strong>
+            <p>上传一张正方形图片效果最好，也可以粘贴图片链接。</p>
+            <div class="inline-actions">
+              <button class="btn btn-soft btn-xs" type="button" id="avatarUploadBtn">
+                <svg class="icon"><use href="#i-upload"></use></svg>
+                上传头像
+              </button>
+              <button class="link-btn" type="button" id="avatarResetBtn">恢复默认</button>
+            </div>
+            <input class="input input-sm" type="url" id="fieldAvatarUrl" placeholder="https://example.com/avatar.jpg">
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>网站标题</span>
+            <input class="input" type="text" id="fieldSiteTitle" maxlength="30" placeholder="我的资料库">
+          </label>
+          <label class="field">
+            <span>姓名 / 昵称</span>
+            <input class="input" type="text" id="fieldName" maxlength="20" placeholder="你的名字">
+          </label>
+
+          <label class="field field-full">
+            <span>一句话简介</span>
+            <input class="input" type="text" id="fieldTagline" maxlength="60" placeholder="工作文件、喜欢的图片和循环播放的歌，都收在这里。">
+          </label>
+
+          <label class="field">
+            <span>身份标签</span>
+            <input class="input" type="text" id="fieldHeadline" maxlength="40" placeholder="独立创作者 / 记录者">
+          </label>
+          <label class="field">
+            <span>状态</span>
+            <input class="input" type="text" id="fieldStatus" maxlength="16" placeholder="开放交流">
+          </label>
+
+          <label class="field field-full">
+            <span>个人介绍</span>
+            <textarea class="input textarea" id="fieldBio" rows="4" maxlength="300" placeholder="介绍一下你自己……"></textarea>
+          </label>
+
+          <label class="field">
+            <span>所在地</span>
+            <input class="input" type="text" id="fieldLocation" maxlength="30" placeholder="中国 · 上海">
+          </label>
+          <label class="field">
+            <span>邮箱</span>
+            <input class="input" type="email" id="fieldEmail" maxlength="60" placeholder="hello@example.com">
+          </label>
+
+          <label class="field field-full">
+            <span>标签 <em>用逗号分隔</em></span>
+            <input class="input" type="text" id="fieldTags" maxlength="80" placeholder="工作资料, 摄影, 音乐">
+          </label>
+
+          <label class="field">
+            <span>GitHub</span>
+            <input class="input" type="url" id="fieldGithub" placeholder="https://github.com/你的用户名">
+          </label>
+          <label class="field">
+            <span>Bilibili</span>
+            <input class="input" type="url" id="fieldBilibili" placeholder="https://space.bilibili.com/…">
+          </label>
+          <label class="field field-full">
+            <span>个人网站</span>
+            <input class="input" type="url" id="fieldWebsite" placeholder="https://example.com">
+          </label>
+        </div>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" data-close="profileModal">取消</button>
+          <button class="btn btn-primary" type="submit">
+            <svg class="icon"><use href="#i-check"></use></svg>
+            保存名片
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ 发布设置 ============ -->
+  <div class="modal" id="publishModal" hidden>
+    <div class="modal-backdrop" data-close="publishModal"></div>
+    <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="publishModalTitle">
+      <header class="modal-head">
+        <div>
+          <span class="eyebrow">PUBLISH</span>
+          <h3 id="publishModalTitle">发布与 GitHub 设置</h3>
+        </div>
+        <button class="icon-btn" type="button" data-close="publishModal" aria-label="关闭">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+
+      <form id="publishForm" class="modal-body">
+        <p class="modal-hint">
+          填写 GitHub 仓库和 Token 后，页面上的“上传文件”会提交到仓库的
+          <code>public/files/</code> 并更新清单。Token 只保存在当前浏览器，不会写进仓库。
+        </p>
+
+        <div class="form-grid">
+          <label class="field">
+            <span>GitHub 用户名 / 组织</span>
+            <input class="input" type="text" id="ghOwner" autocapitalize="none" autocomplete="username" placeholder="your-name">
+          </label>
+          <label class="field">
+            <span>仓库名</span>
+            <input class="input" type="text" id="ghRepo" autocapitalize="none" placeholder="your-name.github.io">
+          </label>
+          <label class="field">
+            <span>分支</span>
+            <input class="input" type="text" id="ghBranch" autocapitalize="none" placeholder="main">
+          </label>
+          <label class="field">
+            <span>Fine-grained Token</span>
+            <input class="input" type="password" id="ghToken" autocomplete="off" placeholder="github_pat_…">
+          </label>
+        </div>
+
+        <p class="settings-help">
+          推荐创建 <strong>Fine-grained personal access token</strong>，只勾选这个仓库的
+          <strong>Contents: Read and write</strong> 权限。
+          <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener noreferrer">去创建 →</a>
+        </p>
+
+        <p class="settings-status" id="ghStatus" role="status">尚未连接 GitHub。</p>
+
+        <div class="modal-actions settings-actions">
+          <button class="btn btn-ghost btn-sm" id="ghClearBtn" type="button">清空配置</button>
+          <button class="btn btn-ghost btn-sm" id="ghTestBtn" type="button">测试连接</button>
+          <button class="btn btn-primary btn-sm" type="submit">
+            <svg class="icon"><use href="#i-check"></use></svg>
+            保存配置
+          </button>
+        </div>
+      </form>
+
+      <div class="modal-body settings-publish">
+        <div>
+          <strong>发布当前名片与封面</strong>
+          <p class="settings-help">让访客看到你的名字、头像、简介和封面，而不是默认占位内容。</p>
+        </div>
+        <button class="btn btn-soft btn-sm" id="publishProfileBtn" type="button">
+          <svg class="icon"><use href="#i-cloud"></use></svg>
+          发布名片
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 链接添加 ============ -->
+  <div class="modal" id="linkModal" hidden>
+    <div class="modal-backdrop" data-close="linkModal"></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="linkModalTitle">
+      <header class="modal-head">
+        <div>
+          <span class="eyebrow">ADD BY URL</span>
+          <h3 id="linkModalTitle">通过链接添加</h3>
+        </div>
+        <button class="icon-btn" type="button" data-close="linkModal" aria-label="关闭">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+
+      <form id="linkForm" class="modal-body">
+        <p class="modal-hint" id="linkModalHint">填入一个公开可访问的链接。</p>
+
+        <label class="field">
+          <span>链接地址</span>
+          <input class="input" type="url" id="linkUrl" required placeholder="https://example.com/file.pdf">
+        </label>
+        <label class="field">
+          <span>显示名称 <em>可选</em></span>
+          <input class="input" type="text" id="linkTitle" maxlength="80" placeholder="例如：项目说明书">
+        </label>
+        <label class="field" id="linkCaptionField">
+          <span>图片说明 <em>可选</em></span>
+          <input class="input" type="text" id="linkCaption" maxlength="80" placeholder="给这张图写一句话">
+        </label>
+
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" data-close="linkModal">取消</button>
+          <button class="btn btn-primary" type="submit">添加</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ 下载密码 ============ -->
+  <div class="modal" id="passwordModal" hidden>
+    <div class="modal-backdrop" data-close="passwordModal"></div>
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="passwordTitle">
+      <div class="confirm-icon">
+        <svg class="icon"><use href="#i-lock"></use></svg>
+      </div>
+      <h3 id="passwordTitle">输入下载密码</h3>
+      <p class="confirm-message">下载资料需要密码。解锁后本次浏览会话内可继续下载。</p>
+
+      <form id="passwordForm" class="password-form">
+        <label class="field">
+          <span class="sr-only">下载密码</span>
+          <input class="input" type="password" id="downloadPassword" autocomplete="current-password" placeholder="请输入密码">
+        </label>
+        <p class="password-error" id="passwordError" hidden>密码不正确，请再试一次。</p>
+        <div class="modal-actions modal-actions-center">
+          <button class="btn btn-ghost" type="button" data-close="passwordModal">取消</button>
+          <button class="btn btn-primary" type="submit">解锁下载</button>
+        </div>
+      </form>
+      <p class="password-note">口令只在前端校验，用于阻止随手下载，不能替代真正的文件加密。</p>
+    </div>
+  </div>
+
+  <!-- ============ 确认框 ============ -->
+  <div class="modal" id="confirmModal" hidden>
+    <div class="modal-backdrop" data-close="confirmModal"></div>
+    <div class="modal-card modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
+      <div class="confirm-icon" id="confirmIcon">
+        <svg class="icon"><use href="#i-trash"></use></svg>
+      </div>
+      <h3 id="confirmTitle">确认删除？</h3>
+      <p class="confirm-message" id="confirmMessage"></p>
+      <div class="modal-actions modal-actions-center">
+        <button class="btn btn-ghost" type="button" id="confirmCancel">取消</button>
+        <button class="btn btn-danger" type="button" id="confirmOk">确认删除</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 隐藏的文件输入 ============ -->
+  <input type="file" id="fileInput" multiple hidden>
+  <input type="file" id="avatarInput" accept="image/*" hidden>
+  <input type="file" id="coverInput" accept="image/*" hidden>
+  <input type="file" id="trackInput" accept="audio/*" multiple hidden>
+  <input type="file" id="importInput" accept="application/json,.json" hidden>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
+
+  <script src="assets/js/db.js"></script>
+  <script src="assets/js/github.js"></script>
+  <script src="assets/js/app.js"></script>
+</body>
+</html>
