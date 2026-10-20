@@ -1,24 +1,20 @@
 {
   "profile": {
-    "siteTitle": "我的资料库",
-    "name": "你的名字",
-    "tagline": "工作文件、喜欢的图片和循环播放的歌，都收在这里。",
-    "headline": "独立创作者 / 记录者",
-    "status": "开放交流",
-    "bio": "这里是我的个人主页。我把工作用的文件、喜欢的图片和常听的音乐整理在一起，随时更换，随时删除。",
-    "location": "中国",
+    "siteTitle": "循此苦旅，终抵群星",
+    "name": "芸曦です",
+    "tagline": "Hello World !",
+    "headline": "Faze的香奈美本人",
+    "status": "Ciallo",
+    "bio": "欢迎来到我的个人主页！我把一些日常工作用的资料上传于此可供下载，希望各位能喜欢这里的音乐。",
+    "location": "幻想乡",
     "email": "",
-    "tags": [
-      "工作资料",
-      "摄影",
-      "音乐"
-    ],
-    "github": "",
-    "bilibili": "",
-    "website": ""
+    "tags": [],
+    "github": "https://github.com/sora1216",
+    "bilibili": "https://space.bilibili.com/45006938?spm_id_from=333.1007.0.0",
+    "website": "https://sora1216.github.io/SorasBlog/"
   },
-  "avatar": "",
+  "avatar": "public/avatar.jpg",
   "cover": "",
   "theme": "light",
-  "updatedAt": "2026-10-20T13:11:50.716Z"
+  "updatedAt": "2026-10-20T13:32:03.050Z"
 }
