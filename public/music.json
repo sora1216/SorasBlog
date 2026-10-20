@@ -1,4 +1,18 @@
 {
-  "updatedAt": null,
-  "tracks": []
+  "updatedAt": "2026-10-20T14:48:33.792Z",
+  "tracks": [
+    {
+      "id": "pub_1792507713791_0",
+      "title": "HOYOMiX_Space_Walk",
+      "artist": "本地音乐",
+      "name": "HOYOMiX_Space_Walk.mp3",
+      "path": "public/music/HOYOMiX_Space_Walk.mp3",
+      "url": "public/music/HOYOMiX_Space_Walk.mp3",
+      "size": 2773592,
+      "mime": "audio/mpeg",
+      "duration": 115.5,
+      "createdAt": 1792507713791,
+      "sha": "1cf8d5444f8196982d0efc67b07daca97ecfc9c2"
+    }
+  ]
 }
