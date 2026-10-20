@@ -1,6 +1,14 @@
 {
-  "updatedAt": "2026-10-20T14:27:36.111Z",
+  "updatedAt": "2026-10-20T15:04:57.271Z",
   "files": [
+    {
+      "name": "鸿柏螺柱焊从站配置包+流程.zip",
+      "path": "public/files/鸿柏螺柱焊从站配置包+流程.zip",
+      "size": 11367895,
+      "mime": "application/x-zip-compressed",
+      "sha": "a5cdece18b36854646813ef94758957b744adf19",
+      "createdAt": 1792508697271
+    },
     {
       "name": "库卡机器人从站鸿柏螺柱焊机配置流程.pdf",
       "path": "public/files/库卡机器人从站鸿柏螺柱焊机配置流程.pdf",
