@@ -14,7 +14,7 @@
     "website": "https://sora1216.github.io/SorasBlog/"
   },
   "avatar": "public/avatar.jpg",
-  "cover": "",
-  "theme": "light",
-  "updatedAt": "2026-10-20T13:32:03.050Z"
+  "cover": "public/cover.jpg",
+  "theme": "dark",
+  "updatedAt": "2026-10-20T14:33:29.435Z"
 }
