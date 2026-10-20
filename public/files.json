@@ -1,6 +1,14 @@
 {
-  "updatedAt": "2026-10-20T14:25:49.501Z",
+  "updatedAt": "2026-10-20T14:27:36.111Z",
   "files": [
+    {
+      "name": "库卡机器人从站鸿柏螺柱焊机配置流程.pdf",
+      "path": "public/files/库卡机器人从站鸿柏螺柱焊机配置流程.pdf",
+      "size": 2910249,
+      "mime": "application/pdf",
+      "sha": "1d16575bf7f4c05224b3fd751a4d8ac365983c40",
+      "createdAt": 1792506456111
+    },
     {
       "name": "以8.7.9系统为例基于WV的库卡机器人基础配置.pdf",
       "path": "public/files/以8.7.9系统为例基于WV的库卡机器人基础配置.pdf",
