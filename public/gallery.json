@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-21T16:08:36.662Z",
+  "updatedAt": "2026-10-21T16:09:38.542Z",
   "photos": [
+    {
+      "id": "ph_1792598978542_0",
+      "title": "74b0f12a8c89e38269394eb0e96ffdb7_720",
+      "caption": "74b0f12a8c89e38269394eb0e96ffdb7 720",
+      "name": "74b0f12a8c89e38269394eb0e96ffdb7_720.jpg",
+      "path": "public/gallery/74b0f12a8c89e38269394eb0e96ffdb7_720.jpg",
+      "url": "public/gallery/74b0f12a8c89e38269394eb0e96ffdb7_720.jpg",
+      "size": 219556,
+      "width": 1275,
+      "height": 1920,
+      "createdAt": 1792598978542,
+      "sha": "642eedc675ea71f1ec3921fa7a8bc41e191e6f0b"
+    },
     {
       "id": "ph_1792598916661_0",
       "title": "32b91b19cfdad6d0f93cc534309d9803_720",
