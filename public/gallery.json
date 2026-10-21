@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-21T16:24:30.021Z",
+  "updatedAt": "2026-10-21T16:27:22.854Z",
   "photos": [
+    {
+      "id": "ph_1792600042853_0",
+      "title": "Alphamax 春日野穹 和服ver.",
+      "caption": "Alphamax 春日野穹 和服ver.",
+      "name": "Alphamax 春日野穹 和服ver..jpg",
+      "path": "public/gallery/Alphamax 春日野穹 和服ver..jpg",
+      "url": "public/gallery/Alphamax 春日野穹 和服ver..jpg",
+      "size": 248827,
+      "width": 1275,
+      "height": 1920,
+      "createdAt": 1792600042853,
+      "sha": "04313e5048c6d85f01526d2e7f0846f92e54e05b"
+    },
     {
       "id": "ph_1792599870021_0",
       "title": "APEX 八重樱 旗袍ver.",
