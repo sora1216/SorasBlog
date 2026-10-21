@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="description" content="MyBlog">
   <meta name="theme-color" content="#fbf5f2">
-  <title>芸曦です · Blog</title>
+  <title>芸曦です</title>
 
   <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -84,13 +84,15 @@
         </span>
       </a>
 
-      <nav class="site-nav" aria-label="主导航">
-        <a href="#profile">名片</a>
-        <a href="#files">资料</a>
+      <nav class="site-nav" id="siteNav" aria-label="主导航">
+        <a href="#home" data-page-link="home" class="is-active">Home</a>
+        <a href="#file" data-page-link="file">File</a>
+        <a href="#gallery" data-page-link="gallery">Gallery</a>
+        <a href="#logs" data-page-link="logs">Logs</a>
       </nav>
 
       <div class="header-actions">
-        <button class="icon-btn publish-btn" id="publishBtn" type="button" aria-label="发布设置" title="发布与公开资料设置">
+        <button class="icon-btn publish-btn owner-only" id="publishBtn" type="button" aria-label="发布设置" title="发布与公开资料设置">
           <svg class="icon"><use href="#i-cloud"></use></svg>
           <span class="publish-label">发布</span>
         </button>
@@ -98,7 +100,7 @@
           <svg class="icon icon-moon"><use href="#i-moon"></use></svg>
           <svg class="icon icon-sun"><use href="#i-sun"></use></svg>
         </button>
-        <button class="btn btn-ghost btn-sm" id="editProfileTop" type="button">
+        <button class="btn btn-ghost btn-sm owner-only" id="editProfileTop" type="button">
           <svg class="icon"><use href="#i-edit"></use></svg>
           <span>编辑名片</span>
         </button>
@@ -107,6 +109,7 @@
   </header>
 
   <main id="top">
+    <div class="page is-active" id="page-home" data-page="home">
     <!-- ============ 主视觉 ============ -->
     <section class="hero container" aria-label="个人空间">
       <div class="hero-card">
@@ -127,7 +130,7 @@
           <div class="hero-tags" id="heroTags"></div>
 
           <div class="hero-actions">
-            <a class="btn btn-primary" href="#files">
+            <a class="btn btn-primary" href="#file" data-page-link="file">
               <svg class="icon"><use href="#i-folder"></use></svg>
               浏览资料
             </a>
@@ -145,11 +148,11 @@
             <span><strong id="heroTrackCount">0</strong> 首歌</span>
           </div>
           <div class="hero-foot-actions">
-            <button class="chip chip-ghost" id="resetCoverBtn" type="button" hidden>
+            <button class="chip chip-ghost owner-only" id="resetCoverBtn" type="button" hidden>
               <svg class="icon"><use href="#i-image"></use></svg>
               恢复默认
             </button>
-            <button class="chip chip-ghost" id="changeCoverBtn" type="button">
+            <button class="chip chip-ghost owner-only" id="changeCoverBtn" type="button">
               <svg class="icon"><use href="#i-image"></use></svg>
               更换封面
             </button>
@@ -204,7 +207,7 @@
               <span>音乐</span>
             </div>
           </div>
-          <button class="btn btn-soft btn-block" id="editProfileBtn" type="button">
+          <button class="btn btn-soft btn-block owner-only" id="editProfileBtn" type="button">
             <svg class="icon"><use href="#i-edit"></use></svg>
             编辑名片
           </button>
@@ -215,9 +218,11 @@
         </aside>
       </div>
     </section>
+    </div>
 
+    <div class="page" id="page-file" data-page="file" hidden>
     <!-- ============ 资料 ============ -->
-    <section class="section container reveal" id="files">
+    <section class="section container" id="files">
       <div class="section-head">
         <div>
           <span class="eyebrow">FILES</span>
@@ -308,6 +313,73 @@
         </div>
       </div>
     </section>
+    </div>
+
+    <!-- ============ 画廊 ============ -->
+    <div class="page" id="page-gallery" data-page="gallery" hidden>
+      <section class="section container">
+        <div class="section-head page-head">
+          <div>
+            <span class="eyebrow">GALLERY</span>
+            <h2>摄影作品 <span class="count-pill" id="galleryCount">0</span></h2>
+            <p class="page-desc">一些横构图与竖构图的全画幅照片。上传时自动压缩到 500 KB 以内，比例不变；每张卡片可以写一行说明。</p>
+          </div>
+          <div class="head-actions owner-only">
+            <button class="btn btn-primary btn-sm" id="addPhotosBtn" type="button">
+              <svg class="icon"><use href="#i-upload"></use></svg>
+              上传照片
+            </button>
+          </div>
+        </div>
+
+        <div class="gallery-masonry" id="galleryGrid"></div>
+
+        <div class="empty-state" id="galleryEmpty" hidden>
+          <div class="empty-art"><svg class="icon"><use href="#i-image"></use></svg></div>
+          <h3>还没有照片</h3>
+          <p>上传你喜欢的照片，它们会按原始横竖比例排成瀑布流。</p>
+          <div class="empty-actions">
+            <button class="btn btn-primary btn-sm owner-only" id="galleryEmptyUpload" type="button">
+              <svg class="icon"><use href="#i-upload"></use></svg>
+              上传第一张照片
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ============ 日志 ============ -->
+    <div class="page" id="page-logs" data-page="logs" hidden>
+      <section class="section container">
+        <div class="section-head page-head">
+          <div>
+            <span class="eyebrow">LOGS</span>
+            <h2>日志 <span class="count-pill" id="logCount">0</span></h2>
+            <p class="page-desc">一些没有放进作品集里的记录。长文默认折叠，点开再读。</p>
+          </div>
+          <div class="head-actions owner-only">
+            <button class="btn btn-primary btn-sm" id="addLogBtn" type="button">
+              <svg class="icon"><use href="#i-edit"></use></svg>
+              写日志
+            </button>
+          </div>
+        </div>
+
+        <div class="log-list" id="logList"></div>
+
+        <div class="empty-state" id="logsEmpty" hidden>
+          <div class="empty-art"><svg class="icon"><use href="#i-edit"></use></svg></div>
+          <h3>还没有日志</h3>
+          <p>写一点最近在做的事、路上的见闻，或者只是某一天的心情。</p>
+          <div class="empty-actions">
+            <button class="btn btn-primary btn-sm owner-only" id="logsEmptyWrite" type="button">
+              <svg class="icon"><use href="#i-edit"></use></svg>
+              写第一篇
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer class="site-footer">
@@ -340,7 +412,7 @@
           <strong id="ppTitle">尚未选择音乐</strong>
           <span id="ppArtist">上传一首歌，开始播放</span>
         </div>
-        <button class="icon-btn icon-btn-sm" id="addTrackBtn" type="button" title="添加音乐" aria-label="添加音乐">
+        <button class="icon-btn icon-btn-sm owner-only" id="addTrackBtn" type="button" title="添加音乐" aria-label="添加音乐">
           <svg class="icon"><use href="#i-plus"></use></svg>
         </button>
       </div>
@@ -376,8 +448,8 @@
       <div class="pp-list-head">
         <span>播放列表 <em id="trackCount">0</em></span>
         <div class="pp-list-actions">
-          <button class="link-btn" id="publishTracksBtn" type="button" hidden>发布音乐</button>
-          <button class="link-btn" id="addTrackLink" type="button">添加音乐</button>
+          <button class="link-btn owner-only" id="publishTracksBtn" type="button" hidden>发布音乐</button>
+          <button class="link-btn owner-only" id="addTrackLink" type="button">添加音乐</button>
         </div>
       </div>
       <ul class="playlist" id="playlist"></ul>
@@ -639,6 +711,67 @@
     </div>
   </div>
 
+  <!-- ============ 图片说明 ============ -->
+  <div class="modal" id="photoCaptionModal" hidden>
+    <div class="modal-backdrop" data-close="photoCaptionModal"></div>
+    <div class="modal-card modal-sm" role="dialog" aria-modal="true" aria-labelledby="photoCaptionTitle">
+      <header class="modal-head">
+        <div><span class="eyebrow">CAPTION</span><h3 id="photoCaptionTitle">编辑照片说明</h3></div>
+        <button class="icon-btn" type="button" data-close="photoCaptionModal" aria-label="关闭">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+      <form id="photoCaptionForm" class="modal-body">
+        <input type="hidden" id="photoCaptionId">
+        <label class="field">
+          <span>一句话说明</span>
+          <input class="input" type="text" id="photoCaptionInput" maxlength="80" placeholder="例如：清晨五点，山脊上的第一束光。">
+        </label>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" data-close="photoCaptionModal">取消</button>
+          <button class="btn btn-primary" type="submit">保存说明</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ============ 写日志 ============ -->
+  <div class="modal" id="logModal" hidden>
+    <div class="modal-backdrop" data-close="logModal"></div>
+    <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="logModalTitle">
+      <header class="modal-head">
+        <div><span class="eyebrow">LOG</span><h3 id="logModalTitle">写日志</h3></div>
+        <button class="icon-btn" type="button" data-close="logModal" aria-label="关闭">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+      <form id="logForm" class="modal-body">
+        <input type="hidden" id="logId">
+        <div class="form-grid">
+          <label class="field field-full">
+            <span>标题</span>
+            <input class="input" type="text" id="logTitle" maxlength="80" required placeholder="今天发生的一件小事">
+          </label>
+          <label class="field">
+            <span>日期</span>
+            <input class="input" type="date" id="logDate">
+          </label>
+        </div>
+        <label class="field">
+          <span>正文</span>
+          <textarea class="input textarea" id="logBody" rows="10" maxlength="6000" required placeholder="写点什么……"></textarea>
+        </label>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" data-close="logModal">取消</button>
+          <button class="btn btn-primary" type="submit">
+            <svg class="icon"><use href="#i-check"></use></svg>
+            保存日志
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ============ 确认框 ============ -->
   <div class="modal" id="confirmModal" hidden>
     <div class="modal-backdrop" data-close="confirmModal"></div>
@@ -661,6 +794,7 @@
   <input type="file" id="coverInput" accept="image/*" hidden>
   <input type="file" id="trackInput" accept="audio/*" multiple hidden>
   <input type="file" id="importInput" accept="application/json,.json" hidden>
+  <input type="file" id="galleryInput" accept="image/*" multiple hidden>
 
   <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 

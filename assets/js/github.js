@@ -12,6 +12,9 @@
   var FILES_PATH = 'public/files.json';
   var MUSIC_PATH = 'public/music.json';
   var MUSIC_DIR = 'public/music/';
+  var GALLERY_PATH = 'public/gallery.json';
+  var GALLERY_DIR = 'public/gallery/';
+  var LOGS_PATH = 'public/logs.json';
 
   function load() {
     try {
@@ -317,6 +320,149 @@
     }
   }
 
+
+  async function readGallery(cfg) {
+    var file = await getFile(cfg, GALLERY_PATH);
+    var manifest = { photos: [], sha: file ? file.sha : '' };
+    if (file) {
+      try {
+        var parsed = JSON.parse(base64ToUtf8(file.content));
+        if (parsed && Array.isArray(parsed.photos)) manifest.photos = parsed.photos;
+      } catch (error) {
+        throw new Error('public/gallery.json 格式不正确，请检查仓库中的文件');
+      }
+    }
+    return manifest;
+  }
+
+  async function writeGallery(cfg, manifest, message) {
+    var payload = {
+      updatedAt: new Date().toISOString(),
+      photos: manifest.photos
+    };
+    return putFile(cfg, GALLERY_PATH, utf8ToBase64(JSON.stringify(payload, null, 2)), message, manifest.sha);
+  }
+
+  async function publishPhotos(cfg, records, onProgress) {
+    var manifest = await readGallery(cfg);
+    var added = [];
+    function flush(message) {
+      if (!added.length) return Promise.resolve(null);
+      return writeGallery(cfg, manifest, message);
+    }
+    try {
+      for (var i = 0; i < records.length; i++) {
+        var record = records[i];
+        var ext = String(record.name || '').toLowerCase().match(/\.[a-z0-9]+$/);
+        var name = safeName(record.name || ('photo-' + Date.now() + (ext ? ext[0] : '.jpg')));
+        var path = GALLERY_DIR + name;
+        var existing = await getFile(cfg, path);
+        var base64 = await blobToBase64(record.blob);
+        var result = await putFile(cfg, path, base64, 'Upload photo ' + name, existing && existing.sha);
+        var entry = {
+          id: 'ph_' + Date.now() + '_' + i,
+          title: record.title || name.replace(/\.[a-z0-9]+$/i, ''),
+          caption: record.caption || '',
+          name: name,
+          path: path,
+          url: path,
+          size: record.size || (record.blob && record.blob.size) || 0,
+          width: record.width || 0,
+          height: record.height || 0,
+          createdAt: Date.now(),
+          sha: result && result.content ? result.content.sha : ''
+        };
+        manifest.photos = manifest.photos.filter(function (item) { return item.path !== path; });
+        manifest.photos.unshift(entry);
+        added.push(entry);
+        if (typeof onProgress === 'function') onProgress(i + 1, records.length, name);
+      }
+      await flush('Update gallery manifest (' + added.length + ')');
+      return added;
+    } catch (error) {
+      try {
+        await flush('Update gallery manifest after partial upload (' + added.length + ')');
+      } catch (flushError) {
+        console.warn(flushError);
+      }
+      throw error;
+    }
+  }
+
+  async function removePhoto(cfg, entry) {
+    var path = entry.path || entry.publicPath;
+    var manifest = await readGallery(cfg);
+    manifest.photos = manifest.photos.filter(function (item) { return item.path !== path; });
+    await writeGallery(cfg, manifest, 'Remove photo ' + (entry.caption || entry.name || path));
+    if (path) {
+      var existing = await getFile(cfg, path);
+      if (existing) await removeRemoteFile(cfg, path, existing.sha, 'Delete photo ' + (entry.name || path));
+    }
+  }
+
+  async function updatePhotoCaption(cfg, id, caption) {
+    var manifest = await readGallery(cfg);
+    var found = null;
+    manifest.photos = manifest.photos.map(function (item) {
+      if (item.id !== id) return item;
+      found = Object.assign({}, item, { caption: String(caption || '').trim() });
+      return found;
+    });
+    if (!found) throw new Error('找不到这张图片，请刷新页面');
+    await writeGallery(cfg, manifest, 'Update photo caption');
+    return found;
+  }
+
+  async function readLogs(cfg) {
+    var file = await getFile(cfg, LOGS_PATH);
+    var manifest = { logs: [], sha: file ? file.sha : '' };
+    if (file) {
+      try {
+        var parsed = JSON.parse(base64ToUtf8(file.content));
+        if (parsed && Array.isArray(parsed.logs)) manifest.logs = parsed.logs;
+      } catch (error) {
+        throw new Error('public/logs.json 格式不正确，请检查仓库中的文件');
+      }
+    }
+    return manifest;
+  }
+
+  async function writeLogs(cfg, manifest, message) {
+    var payload = {
+      updatedAt: new Date().toISOString(),
+      logs: manifest.logs
+    };
+    return putFile(cfg, LOGS_PATH, utf8ToBase64(JSON.stringify(payload, null, 2)), message, manifest.sha);
+  }
+
+  async function saveLog(cfg, log) {
+    var manifest = await readLogs(cfg);
+    var now = Date.now();
+    var entry = {
+      id: log.id || ('log_' + now),
+      title: String(log.title || '无标题').trim().slice(0, 80),
+      date: String(log.date || '').trim(),
+      body: String(log.body || '').trim(),
+      createdAt: log.createdAt || now,
+      updatedAt: now
+    };
+    var replaced = false;
+    manifest.logs = manifest.logs.map(function (item) {
+      if (item.id !== entry.id) return item;
+      replaced = true;
+      return entry;
+    });
+    if (!replaced) manifest.logs.unshift(entry);
+    await writeLogs(cfg, manifest, (replaced ? 'Update log ' : 'Add log ') + entry.title);
+    return entry;
+  }
+
+  async function removeLog(cfg, entry) {
+    var manifest = await readLogs(cfg);
+    manifest.logs = manifest.logs.filter(function (item) { return item.id !== entry.id; });
+    await writeLogs(cfg, manifest, 'Remove log ' + (entry.title || entry.id));
+  }
+
   async function publishSite(cfg, site) {
     var existing = await getFile(cfg, 'public/site.json');
     return putFile(
@@ -348,6 +494,13 @@
     removeFile: removeFile,
     addExternalLink: addExternalLink,
     readMusic: readMusic,
+    readGallery: readGallery,
+    publishPhotos: publishPhotos,
+    removePhoto: removePhoto,
+    updatePhotoCaption: updatePhotoCaption,
+    readLogs: readLogs,
+    saveLog: saveLog,
+    removeLog: removeLog,
     publishTracks: publishTracks,
     removeTrack: removeTrack,
     publishSite: publishSite,
