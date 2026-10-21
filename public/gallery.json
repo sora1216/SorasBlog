@@ -1,4 +1,18 @@
 {
-  "updatedAt": null,
-  "photos": []
+  "updatedAt": "2026-10-21T16:08:36.662Z",
+  "photos": [
+    {
+      "id": "ph_1792598916661_0",
+      "title": "32b91b19cfdad6d0f93cc534309d9803_720",
+      "caption": "32b91b19cfdad6d0f93cc534309d9803 720",
+      "name": "32b91b19cfdad6d0f93cc534309d9803_720.jpg",
+      "path": "public/gallery/32b91b19cfdad6d0f93cc534309d9803_720.jpg",
+      "url": "public/gallery/32b91b19cfdad6d0f93cc534309d9803_720.jpg",
+      "size": 179273,
+      "width": 1280,
+      "height": 1707,
+      "createdAt": 1792598916661,
+      "sha": "229d4e688797e4addd486536c5eb02ee0f21d8ac"
+    }
+  ]
 }
