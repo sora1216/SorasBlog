@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-21T16:22:13.641Z",
+  "updatedAt": "2026-10-21T16:24:30.021Z",
   "photos": [
+    {
+      "id": "ph_1792599870021_0",
+      "title": "APEX 八重樱 旗袍ver.",
+      "caption": "APEX 八重樱 旗袍ver.",
+      "name": "APEX 八重樱 旗袍ver..jpg",
+      "path": "public/gallery/APEX 八重樱 旗袍ver..jpg",
+      "url": "public/gallery/APEX 八重樱 旗袍ver..jpg",
+      "size": 282126,
+      "width": 1275,
+      "height": 1920,
+      "createdAt": 1792599870021,
+      "sha": "475ad7097cc3066e699aef20638157bc0b7ec36e"
+    },
     {
       "id": "ph_1792599400663_0",
       "title": "002eb0e3640ef7dfc510a5210558452e_720",
