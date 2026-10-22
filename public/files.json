@@ -1,6 +1,14 @@
 {
-  "updatedAt": "2026-10-20T15:04:57.271Z",
+  "updatedAt": "2026-10-22T15:33:12.049Z",
   "files": [
+    {
+      "name": "通过移动块计算气缸、检知状态的案例.xls",
+      "path": "public/files/通过移动块计算气缸、检知状态的案例.xls",
+      "size": 1628672,
+      "mime": "application/vnd.ms-excel",
+      "sha": "f85348e05a207747dc7733a767a6034e7f1b6bed",
+      "createdAt": 1792683192049
+    },
     {
       "name": "鸿柏螺柱焊从站配置包+流程.zip",
       "path": "public/files/鸿柏螺柱焊从站配置包+流程.zip",
