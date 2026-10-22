@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-22T13:24:25.791Z",
+  "updatedAt": "2026-10-22T13:28:14.904Z",
   "photos": [
+    {
+      "id": "ph_1792675694904_0",
+      "title": "Alter 春日野穹 BunnyStyle",
+      "caption": "Alter 春日野穹 BunnyStyle",
+      "name": "Alter 春日野穹 BunnyStyle.jpg",
+      "path": "public/gallery/Alter 春日野穹 BunnyStyle.jpg",
+      "url": "public/gallery/Alter 春日野穹 BunnyStyle.jpg",
+      "size": 228612,
+      "width": 1280,
+      "height": 1920,
+      "createdAt": 1792675694904,
+      "sha": "5c188a2e8f94e336e1c76ff00dc4dc3258f9043b"
+    },
     {
       "id": "ph_1792675465790_0",
       "title": "Alter 春日野穹 旗袍ver.",
