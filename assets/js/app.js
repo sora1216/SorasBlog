@@ -637,7 +637,7 @@
     setText('footerName', profile.name);
     setText('footerName2', profile.name);
     setText('footerYear', year);
-    setText('heroYear', year);
+    setText('heroYear', '一如初见');
 
     var heroTags = document.getElementById('heroTags');
     if (heroTags) {
