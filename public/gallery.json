@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-22T13:28:14.904Z",
+  "updatedAt": "2026-10-22T13:33:09.973Z",
   "photos": [
+    {
+      "id": "ph_1792675989973_0",
+      "title": "Myethos 流萤 春日手信",
+      "caption": "Myethos 流萤 春日手信",
+      "name": "Myethos 流萤 春日手信.jpg",
+      "path": "public/gallery/Myethos 流萤 春日手信.jpg",
+      "url": "public/gallery/Myethos 流萤 春日手信.jpg",
+      "size": 256290,
+      "width": 1280,
+      "height": 1920,
+      "createdAt": 1792675989973,
+      "sha": "67eb0845a0df4097d54d0f96f6038d1684c5a7fc"
+    },
     {
       "id": "ph_1792675694904_0",
       "title": "Alter 春日野穹 BunnyStyle",
