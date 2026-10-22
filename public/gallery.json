@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-22T13:21:43.257Z",
+  "updatedAt": "2026-10-22T13:24:25.791Z",
   "photos": [
+    {
+      "id": "ph_1792675465790_0",
+      "title": "Alter 春日野穹 旗袍ver.",
+      "caption": "Alter 春日野穹 旗袍ver.",
+      "name": "Alter 春日野穹 旗袍ver..jpg",
+      "path": "public/gallery/Alter 春日野穹 旗袍ver..jpg",
+      "url": "public/gallery/Alter 春日野穹 旗袍ver..jpg",
+      "size": 291884,
+      "width": 1280,
+      "height": 1920,
+      "createdAt": 1792675465790,
+      "sha": "8836c04a178b77fdfb405ae3f1dc01333c7f373d"
+    },
     {
       "id": "ph_1792675303257_0",
       "title": "AMAKUNI 春物完篇 一色彩羽",
