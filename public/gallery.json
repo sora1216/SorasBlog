@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-22T13:19:58.332Z",
+  "updatedAt": "2026-10-22T13:21:43.257Z",
   "photos": [
+    {
+      "id": "ph_1792675303257_0",
+      "title": "AMAKUNI 春物完篇 一色彩羽",
+      "caption": "AMAKUNI 春物完篇 一色彩羽",
+      "name": "AMAKUNI 春物完篇 一色彩羽.jpg",
+      "path": "public/gallery/AMAKUNI 春物完篇 一色彩羽.jpg",
+      "url": "public/gallery/AMAKUNI 春物完篇 一色彩羽.jpg",
+      "size": 280086,
+      "width": 1280,
+      "height": 1920,
+      "createdAt": 1792675303257,
+      "sha": "e18e6421ef4ae0074c3e53c9039adba2496b0c65"
+    },
     {
       "id": "ph_1792675198331_0",
       "title": "GSC POPUP 春日野穹",
