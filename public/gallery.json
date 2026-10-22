@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-22T13:17:07.065Z",
+  "updatedAt": "2026-10-22T13:19:58.332Z",
   "photos": [
+    {
+      "id": "ph_1792675198331_0",
+      "title": "GSC POPUP 春日野穹",
+      "caption": "GSC POPUP 春日野穹",
+      "name": "GSC POPUP 春日野穹.jpg",
+      "path": "public/gallery/GSC POPUP 春日野穹.jpg",
+      "url": "public/gallery/GSC POPUP 春日野穹.jpg",
+      "size": 186979,
+      "width": 1280,
+      "height": 1920,
+      "createdAt": 1792675198332,
+      "sha": "aa2019558472dbe918ee326ab2ad0ad00822298b"
+    },
     {
       "id": "ph_1792675027064_0",
       "title": "MegaHouse BrilliantStage 春日野穹",
