@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T13:51:28.105Z",
+  "updatedAt": "2026-10-24T13:55:26.230Z",
   "tracks": [
+    {
+      "id": "pub_1792850126230_0",
+      "title": "1-02 遺サレタ場所／斜光",
+      "artist": "岡部啓一 MONACA",
+      "name": "岡部啓一 MONACA - 1-02 遺サレタ場所／斜光.mp3",
+      "path": "public/music/岡部啓一 MONACA - 1-02 遺サレタ場所／斜光.mp3",
+      "url": "public/music/岡部啓一 MONACA - 1-02 遺サレタ場所／斜光.mp3",
+      "size": 9241839,
+      "mime": "audio/mpeg",
+      "duration": 382.8,
+      "createdAt": 1792850126230,
+      "sha": "c92aebe1d4472d66ec34001c96e72541309b1469"
+    },
     {
       "id": "pub_1792849888105_0",
       "title": "aqua",
