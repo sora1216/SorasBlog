@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T14:26:25.524Z",
+  "updatedAt": "2026-10-24T14:29:11.852Z",
   "tracks": [
+    {
+      "id": "pub_1792852151852_0",
+      "title": "Da Capo",
+      "artist": "HOYO-MiX",
+      "name": "HOYO-MiX - Da Capo.mp3",
+      "path": "public/music/HOYO-MiX - Da Capo.mp3",
+      "url": "public/music/HOYO-MiX - Da Capo.mp3",
+      "size": 2340582,
+      "mime": "audio/mpeg",
+      "duration": 134.594583,
+      "createdAt": 1792852151852,
+      "sha": "47d22bc4c04c935a43a8de5e829a6a49b1fb0c9e"
+    },
     {
       "id": "pub_1792851985524_0",
       "title": "Wings_of_Courage",
