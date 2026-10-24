@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T14:22:56.435Z",
+  "updatedAt": "2026-10-24T14:24:12.686Z",
   "tracks": [
+    {
+      "id": "pub_1792851852686_0",
+      "title": "Don't Be So Serious",
+      "artist": "Low Roar",
+      "name": "Low Roar - Don't Be So Serious.mp3",
+      "path": "public/music/Low Roar - Don't Be So Serious.mp3",
+      "url": "public/music/Low Roar - Don't Be So Serious.mp3",
+      "size": 9437228,
+      "mime": "audio/mpeg",
+      "duration": 373.31839,
+      "createdAt": 1792851852686,
+      "sha": "8ab0ea1d3681c1cfd75d7113788c0797eaf1c289"
+    },
     {
       "id": "pub_1792851776434_0",
       "title": "ヨスガノソラ メインテーマ -遠い空へ-",
