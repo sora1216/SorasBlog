@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T13:58:50.608Z",
+  "updatedAt": "2026-10-24T14:05:23.379Z",
   "tracks": [
+    {
+      "id": "pub_1792850723379_0",
+      "title": "昔涟",
+      "artist": "张韶涵 HOYO-MiX",
+      "name": "张韶涵 HOYO-MiX - 昔涟.mp3",
+      "path": "public/music/张韶涵 HOYO-MiX - 昔涟.mp3",
+      "url": "public/music/张韶涵 HOYO-MiX - 昔涟.mp3",
+      "size": 4663684,
+      "mime": "audio/mpeg",
+      "duration": 186.671292,
+      "createdAt": 1792850723379,
+      "sha": "2ab9978876e628a9d4ed3c92ec311b696868fe80"
+    },
     {
       "id": "pub_1792850330608_0",
       "title": "空に光る",
