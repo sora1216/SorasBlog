@@ -1,4 +1,18 @@
 {
-  "updatedAt": "2026-10-24T12:48:08.864Z",
-  "tracks": []
+  "updatedAt": "2026-10-24T12:50:13.368Z",
+  "tracks": [
+    {
+      "id": "pub_1792846213368_0",
+      "title": "太空漫步",
+      "artist": "HOYOMiX",
+      "name": "HOYOMiX - 太空漫步.mp3",
+      "path": "public/music/HOYOMiX - 太空漫步.mp3",
+      "url": "public/music/HOYOMiX - 太空漫步.mp3",
+      "size": 2773592,
+      "mime": "audio/mpeg",
+      "duration": 115.5,
+      "createdAt": 1792846213368,
+      "sha": "1cf8d5444f8196982d0efc67b07daca97ecfc9c2"
+    }
+  ]
 }
