@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T13:55:26.230Z",
+  "updatedAt": "2026-10-24T13:57:28.805Z",
   "tracks": [
+    {
+      "id": "pub_1792850248805_0",
+      "title": "Bones",
+      "artist": "Low Roar Jofridur Akadottir",
+      "name": "Low Roar Jofridur Akadottir - Bones.mp3",
+      "path": "public/music/Low Roar Jofridur Akadottir - Bones.mp3",
+      "url": "public/music/Low Roar Jofridur Akadottir - Bones.mp3",
+      "size": 4552753,
+      "mime": "audio/mpeg",
+      "duration": 169.805488,
+      "createdAt": 1792850248805,
+      "sha": "ea79267f1a925b73578f77fbab06b7a5e60c0fa9"
+    },
     {
       "id": "pub_1792850126230_0",
       "title": "1-02 遺サレタ場所／斜光",
