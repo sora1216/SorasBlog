@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T14:05:23.379Z",
+  "updatedAt": "2026-10-24T14:09:08.915Z",
   "tracks": [
+    {
+      "id": "pub_1792850948915_0",
+      "title": "星座になれたら",
+      "artist": "結束バンド",
+      "name": "結束バンド - 星座になれたら.mp3",
+      "path": "public/music/結束バンド - 星座になれたら.mp3",
+      "url": "public/music/結束バンド - 星座になれたら.mp3",
+      "size": 4321686,
+      "mime": "audio/mpeg",
+      "duration": 258.173333,
+      "createdAt": 1792850948915,
+      "sha": "79c077c757697d2373ec1d68e02ff045446a6753"
+    },
     {
       "id": "pub_1792850723379_0",
       "title": "昔涟",
