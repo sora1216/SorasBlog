@@ -1,18 +1,4 @@
 {
-  "updatedAt": "2026-10-24T12:45:47.204Z",
-  "tracks": [
-    {
-      "id": "pub_1792845947204_0",
-      "title": "坂本龍一",
-      "artist": "aqua",
-      "name": "aqua - 坂本龍一.mp3",
-      "path": "public/music/aqua - 坂本龍一.mp3",
-      "url": "public/music/aqua - 坂本龍一.mp3",
-      "size": 6507311,
-      "mime": "audio/mpeg",
-      "duration": 270.281088,
-      "createdAt": 1792845947204,
-      "sha": "70fa1dbffa71f60de674f5c532800427d34a389a"
-    }
-  ]
+  "updatedAt": "2026-10-24T12:47:06.806Z",
+  "tracks": []
 }
