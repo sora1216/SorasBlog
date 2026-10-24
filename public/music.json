@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T14:09:08.915Z",
+  "updatedAt": "2026-10-24T14:19:52.505Z",
   "tracks": [
+    {
+      "id": "pub_1792851592505_0",
+      "title": "再度和你",
+      "artist": "HOYOMiX",
+      "name": "HOYOMiX - 再度和你.mp3",
+      "path": "public/music/HOYOMiX - 再度和你.mp3",
+      "url": "public/music/HOYOMiX - 再度和你.mp3",
+      "size": 5239008,
+      "mime": "audio/mpeg",
+      "duration": 204.166667,
+      "createdAt": 1792851592505,
+      "sha": "5f4323ce6bfbca9bc82f279b33c0ffb724859213"
+    },
     {
       "id": "pub_1792850948915_0",
       "title": "星座になれたら",
