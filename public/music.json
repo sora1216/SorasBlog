@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T14:29:11.852Z",
+  "updatedAt": "2026-10-24T14:30:55.089Z",
   "tracks": [
+    {
+      "id": "pub_1792852255089_0",
+      "title": "愛言葉V",
+      "artist": "DECO 27 初音ミク",
+      "name": "DECO 27 初音ミク - 愛言葉V.mp3",
+      "path": "public/music/DECO 27 初音ミク - 愛言葉V.mp3",
+      "url": "public/music/DECO 27 初音ミク - 愛言葉V.mp3",
+      "size": 5748996,
+      "mime": "audio/mpeg",
+      "duration": 219.026667,
+      "createdAt": 1792852255089,
+      "sha": "ecef9b79e7b9f064fa29f46164ed80493f657f78"
+    },
     {
       "id": "pub_1792852151852_0",
       "title": "Da Capo",
