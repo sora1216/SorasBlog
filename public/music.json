@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T12:50:13.368Z",
+  "updatedAt": "2026-10-24T13:51:28.105Z",
   "tracks": [
+    {
+      "id": "pub_1792849888105_0",
+      "title": "aqua",
+      "artist": "坂本龍一",
+      "name": "坂本龍一 - aqua .mp3",
+      "path": "public/music/坂本龍一 - aqua .mp3",
+      "url": "public/music/坂本龍一 - aqua .mp3",
+      "size": 6507311,
+      "mime": "audio/mpeg",
+      "duration": 270.281088,
+      "createdAt": 1792849888105,
+      "sha": "70fa1dbffa71f60de674f5c532800427d34a389a"
+    },
     {
       "id": "pub_1792846213368_0",
       "title": "太空漫步",
