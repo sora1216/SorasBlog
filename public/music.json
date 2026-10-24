@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-24T13:57:28.805Z",
+  "updatedAt": "2026-10-24T13:58:50.608Z",
   "tracks": [
+    {
+      "id": "pub_1792850330608_0",
+      "title": "空に光る",
+      "artist": "戸越まごめ",
+      "name": "戸越まごめ - 空に光る.mp3",
+      "path": "public/music/戸越まごめ - 空に光る.mp3",
+      "url": "public/music/戸越まごめ - 空に光る.mp3",
+      "size": 7554493,
+      "mime": "audio/mpeg",
+      "duration": 308,
+      "createdAt": 1792850330608,
+      "sha": "86528ef0a8d388ff3452432398732ba31f1d1a24"
+    },
     {
       "id": "pub_1792850248805_0",
       "title": "Bones",
