@@ -2376,6 +2376,13 @@ ul { margin: 0; padding: 0; list-style: none; }
 .recent-item .ri-meta > span:first-child{padding:2px 7px;border-radius:5px;background:rgba(255,255,255,.17);border:1px solid rgba(255,255,255,.18);color:#fff;font-size:9px}
 .recent-item .ri-title{position:relative;z-index:1;font-size:13.5px;font-weight:600;line-height:1.45;text-shadow:0 1px 10px rgba(0,0,0,.22);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .recent-item .ri-arrow{position:absolute;right:12px;top:12px;z-index:2;opacity:.75;font-size:13px;text-shadow:0 1px 8px rgba(0,0,0,.3)}
+.recent-item.is-plain{background:linear-gradient(135deg,#3b3034,#2b2225 62%)}
+.recent-item.is-empty{flex:0 0 auto;justify-content:center;background:var(--surface-2);border:1px dashed var(--border);cursor:default;box-shadow:none}
+.recent-item.is-empty::before,.recent-item.is-empty::after{display:none}
+.recent-item.is-empty:hover{transform:none;box-shadow:none}
+.recent-item.is-empty .ri-meta{color:var(--faint)}
+.recent-item.is-empty .ri-meta > span:first-child{background:transparent;border-color:var(--border);color:var(--faint)}
+.recent-item.is-empty .ri-title{color:var(--muted);text-shadow:none}
 
 /* ---------- Logs：双列瀑布流 + 3/9 宫格 ---------- */
 .log-masonry{columns:2;column-gap:20px}
