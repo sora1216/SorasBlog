@@ -13,6 +13,7 @@
   // Gallery uploads are resized/re-encoded in the browser before touching GitHub.
   var GALLERY_MAX_BYTES = 500 * 1000;
   var GALLERY_MAX_EDGE = 4096;
+  var LOG_PHOTO_LIMIT = 9;
 
   var DEFAULT_PROFILE = {
     siteTitle: '我的资料库',
@@ -21,9 +22,10 @@
     headline: '独立创作者 / 记录者',
     status: '开放交流',
     bio: '这里是我的个人主页。我把工作用的文件、喜欢的图片和常听的音乐整理在一起，随时更换，随时删除。',
+    intro: '',
     location: '中国',
     email: '',
-    tags: ['工作资料', '摄影', '音乐'],
+    tags: [],
     github: '',
     bilibili: '',
     website: '',
@@ -56,6 +58,8 @@
     pendingDownload: null,
     logEditing: null,
     galleryUploading: false,
+    logPhotos: [],
+    logUploading: false,
     ownerSetup: false,
     autoplayAttempted: false,
     autoplayGestureHandler: null
@@ -74,6 +78,22 @@
   function setText(id, value) {
     var node = document.getElementById(id);
     if (node) node.textContent = value == null ? '' : String(value);
+  }
+
+  // 首页主标题按 v2 的版式在第一个逗号后断行（数据仍来自 siteTitle）
+  function renderHeroTitle(text) {
+    var node = document.getElementById('heroTitle');
+    if (!node) return;
+    var raw = text == null ? '' : String(text).trim();
+    var idx = raw.indexOf('，');
+    node.textContent = '';
+    if (idx > 0 && idx < raw.length - 1) {
+      node.appendChild(document.createTextNode(raw.slice(0, idx + 1)));
+      node.appendChild(document.createElement('br'));
+      node.appendChild(document.createTextNode(raw.slice(idx + 1)));
+    } else {
+      node.textContent = raw;
+    }
   }
 
   function h(tag, attrs) {
@@ -298,6 +318,9 @@
         title: entry.title || '无标题',
         date: entry.date || '',
         body: entry.body || '',
+        kind: entry.kind || '随记',
+        photos: Array.isArray(entry.photos) ? entry.photos.filter(Boolean) : [],
+        views: Number(entry.views || 0),
         createdAt: entry.createdAt || 0,
         updatedAt: entry.updatedAt || 0
       };
@@ -621,6 +644,12 @@
     if (dom.resetCoverBtn) {
       dom.resetCoverBtn.hidden = !(profile.coverMediaId || profile.coverUrl);
     }
+    /* 让 pages.js 的「关于我」封面能跟着一起换（它读 #heroBg 的最终 src） */
+    try {
+      document.dispatchEvent(new CustomEvent('atlas:images'));
+    } catch (error) {
+      /* 老浏览器忽略 */
+    }
   }
 
   function renderProfile() {
@@ -628,31 +657,21 @@
     var year = String(new Date().getFullYear());
 
     setText('brandName', profile.name);
-    setText('heroTitle', profile.siteTitle || '我的资料库');
+    renderHeroTitle(profile.siteTitle || '我的资料库');
     setText('heroSubtitle', profile.tagline);
     setText('heroStatus', profile.status || '开放交流');
     setText('profileName', profile.name);
     setText('profileHeadline', profile.headline);
     setText('profileBio', profile.bio);
+    setText('aboutIntro', profile.intro);
+    var aboutIntroEl = document.getElementById('aboutIntro');
+    if (aboutIntroEl) aboutIntroEl.hidden = !profile.intro;
     setText('footerName', profile.name);
     setText('footerName2', profile.name);
     setText('footerYear', year);
     setText('heroYear', '一如初见');
 
-    var heroTags = document.getElementById('heroTags');
-    if (heroTags) {
-      heroTags.innerHTML = '';
-      var tags = profile.tags.slice(0, 5);
-      tags.forEach(function (tag) { heroTags.appendChild(h('span', { class: 'hero-tag' }, tag)); });
-      heroTags.hidden = tags.length === 0;
-    }
 
-    var profileTags = document.getElementById('profileTags');
-    if (profileTags) {
-      profileTags.innerHTML = '';
-      profile.tags.forEach(function (tag) { profileTags.appendChild(h('span', { class: 'tag' }, tag)); });
-      profileTags.hidden = profile.tags.length === 0;
-    }
 
     renderLinks(profile);
   }
@@ -662,25 +681,24 @@
     if (!container) return;
     container.innerHTML = '';
 
+    /* 与 About 页保持同一套胶囊：GitHub / Bilibili / sora1216.github.io / 幻想乡 */
     var links = [];
-    if (profile.github) links.push({ icon: 'github', label: 'GitHub', href: normalizeUrl(profile.github) });
-    if (profile.bilibili) links.push({ icon: 'bilibili', label: 'Bilibili', href: normalizeUrl(profile.bilibili) });
-    if (profile.website) links.push({ icon: 'globe', label: hostLabel(profile.website), href: normalizeUrl(profile.website) });
-    if (profile.email) links.push({ icon: 'mail', label: profile.email, href: 'mailto:' + profile.email });
+    links.push({ icon: 'github', label: 'GitHub', href: normalizeUrl(profile.github || 'https://github.com/sora1216') });
+    links.push({ icon: 'bilibili', label: 'Bilibili', href: normalizeUrl(profile.bilibili || 'https://space.bilibili.com/45006938') });
+    links.push({ icon: 'globe', label: 'sora1216.github.io', href: normalizeUrl(profile.website || 'https://sora1216.github.io/SorasBlog/') });
 
     links.forEach(function (item) {
       container.appendChild(
         h('a', {
-          class: 'profile-link', href: item.href,
-          target: item.href.indexOf('mailto:') === 0 ? null : '_blank',
+          class: 'chip', href: item.href, target: '_blank',
           rel: 'noopener noreferrer', title: item.label
-        }, icon(item.icon), h('span', null, item.label))
+        }, icon(item.icon), item.label)
       );
     });
 
     if (profile.location) {
       container.appendChild(
-        h('span', { class: 'profile-link', title: profile.location },
+        h('span', { class: 'chip', title: profile.location },
           icon('pin'), h('span', null, profile.location))
       );
     }
@@ -688,22 +706,34 @@
     container.hidden = container.children.length === 0;
   }
 
+  function pad2(value){ return String(Number(value || 0)).padStart(2, '0'); }
+
+  /* 2026-10-26 → 2026 / 10 / 26（与效果图一致，其他写法原样输出） */
+  function formatLogDate(value) {
+    var text = String(value || '').trim();
+    var match = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+    return match ? match[1] + ' / ' + match[2] + ' / ' + match[3] : text;
+  }
+
   function renderCounts() {
     var counts = {
       files: state.files.length,
       photos: state.photos.length,
       logs: state.logs.length,
+      reviews: Array.isArray(state.reviews) ? state.reviews.length : (window.__atlasReviews || []).length,
       tracks: state.tracks.length
     };
     setText('heroFileCount', counts.files);
     setText('heroPhotoCount', counts.photos);
+    setText('heroLogCount', counts.logs);
+    setText('heroReviewCount', counts.reviews);
     setText('heroTrackCount', counts.tracks);
     setText('statFiles', counts.files);
     setText('statPhotos', counts.photos);
     setText('statTracks', counts.tracks);
     setText('fileCount', counts.files);
     setText('galleryCount', counts.photos);
-    setText('logCount', counts.logs);
+    setText('logCount', pad2(counts.logs));
     setText('trackCount', counts.tracks);
     setText('profileAside', (state.github ? 'GitHub 公开库' : '公开资料库') + ' · ' + (counts.files + counts.photos + counts.logs + counts.tracks) + ' 项内容');
   }
@@ -1038,13 +1068,31 @@
         }, '删除')
       ) : null;
 
+      var photos = Array.isArray(record.photos) ? record.photos : [];
+      var photoGrid = null;
+      if (photos.length) {
+        photoGrid = h('div', {
+          class: 'log-photos' + (photos.length === 1 ? ' one' : photos.length === 2 ? ' two' : ' count-' + photos.length)
+        });
+        photos.forEach(function (url) {
+          photoGrid.appendChild(h('img', { src: url, alt: '', loading: 'lazy' }));
+        });
+      }
+
       var card = h('article', { class: 'log-card' + (isLong ? '' : ' is-open'), dataset: { id: record.id } },
         h('div', { class: 'log-meta' },
-          h('span', { class: 'log-date' }, record.date || ''),
+          h('span', { class: 'log-date' }, formatLogDate(record.date)),
+          h('span', { class: 'log-kind' }, record.kind || '随记'),
           actions
         ),
         h('h3', { class: 'log-title' }, record.title || '无标题'),
-        h('div', { class: 'log-body' }, record.body || '')
+        h('div', { class: 'log-body' }, record.body || ''),
+        photoGrid || '',
+        photos.length ? h('div', { class: 'log-foot' },
+          h('span', null, photos.length + ' 张图片'),
+          h('span', { class: 'dotline' }),
+          h('span', null, (record.views || 0) + ' 次浏览')
+        ) : ''
       );
       if (isLong) {
         card.appendChild(h('button', { class: 'log-toggle', type: 'button' },
@@ -1062,6 +1110,7 @@
     dom.logId.value = record ? record.id : '';
     dom.logTitle.value = record ? record.title : '';
     dom.logBody.value = record ? record.body : '';
+    dom.logKind.value = record ? (record.kind || '') : '随记';
     if (!record) {
       var now = new Date();
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -1069,8 +1118,100 @@
     } else {
       dom.logDate.value = record.date || '';
     }
-    setText('logModalTitle', record ? '编辑日志' : '写日志');
+    state.logPhotos = (record && Array.isArray(record.photos) ? record.photos : []).map(function (url) {
+      return typeof url === 'string' ? { url: url } : url;
+    });
+    renderLogPhotoEditor();
+    setText('logModalTitle', record ? '编辑说说' : '写说说');
     openModal('logModal', '#logTitle');
+  }
+
+  /* 说说图片：本地预览靠 objectURL，保存时才真正上传到仓库 */
+  function renderLogPhotoEditor() {
+    var list = dom.logPhotoList;
+    if (!list) return;
+    list.innerHTML = '';
+    state.logPhotos.forEach(function (photo, index) {
+      var item = h('div', { class: 'photo-edit-item' },
+        h('img', { src: photo.url, alt: '', loading: 'lazy' }),
+        h('button', {
+          class: 'photo-edit-remove', type: 'button', 'aria-label': '移除这张图片',
+          onclick: function (event) {
+            event.preventDefault();
+            var removed = state.logPhotos.splice(index, 1)[0];
+            if (removed && removed.blob && removed.url) URL.revokeObjectURL(removed.url);
+            renderLogPhotoEditor();
+          }
+        }, '×')
+      );
+      list.appendChild(item);
+    });
+    if (dom.logPhotoBtn) dom.logPhotoBtn.disabled = state.logPhotos.length >= LOG_PHOTO_LIMIT || state.logUploading;
+    if (dom.logPhotoHint) {
+      dom.logPhotoHint.textContent = state.logUploading
+        ? '正在压缩图片…'
+        : '最多 ' + LOG_PHOTO_LIMIT + ' 张，自动压缩到 500KB 内（已选 ' + state.logPhotos.length + ' 张）';
+    }
+  }
+
+  async function addLogPhotos(fileList) {
+    var files = Array.prototype.slice.call(fileList || []).filter(function (file) {
+      return file && (file.type || '').indexOf('image/') === 0;
+    });
+    if (!files.length) {
+      toast('请选择图片文件', 'error');
+      return;
+    }
+    var room = LOG_PHOTO_LIMIT - state.logPhotos.length;
+    if (room <= 0) {
+      toast('一篇说说最多 ' + LOG_PHOTO_LIMIT + ' 张图片', 'error');
+      return;
+    }
+    if (files.length > room) {
+      files = files.slice(0, room);
+      toast('最多再放 ' + room + ' 张，多出的已忽略', 'info', 3600);
+    }
+    var tooBig = files.filter(function (file) { return file.size > 25 * 1024 * 1024; });
+    if (tooBig.length) {
+      toast('有 ' + tooBig.length + ' 张图片超过 25MB，请先压缩', 'error', 5000);
+      return;
+    }
+    state.logUploading = true;
+    renderLogPhotoEditor();
+    try {
+      for (var i = 0; i < files.length; i++) {
+        var prepared = await compressGalleryImage(files[i]);
+        state.logPhotos.push({
+          url: URL.createObjectURL(prepared.blob),
+          blob: prepared.blob,
+          name: prepared.name,
+          width: prepared.width,
+          height: prepared.height,
+          isNew: true
+        });
+      }
+    } catch (error) {
+      toast(error.message || '图片处理失败', 'error', 5000);
+    } finally {
+      state.logUploading = false;
+      renderLogPhotoEditor();
+    }
+  }
+
+  /* 把还没上传的图片传到 public/logs/<id>/，返回最终 photos 数组（保持顺序） */
+  async function uploadPendingLogPhotos(logId) {
+    var pending = state.logPhotos.filter(function (photo) { return photo.blob; });
+    if (!pending.length) {
+      return state.logPhotos.map(function (photo) { return photo.url; });
+    }
+    if (!state.github) throw new Error('请先在「发布」里连接 GitHub，图片才能存到仓库');
+    var paths = await window.GitHubStore.uploadLogPhotos(state.github, logId, pending);
+    var cursor = 0;
+    return state.logPhotos.map(function (photo) {
+      if (!photo.blob) return photo.url;
+      var path = paths[cursor++];
+      return path || photo.url;
+    });
   }
 
   async function saveLogEntry(event) {
@@ -1088,20 +1229,39 @@
     }
     try {
       var editing = state.logEditing;
+      var logId = editing ? editing.id : ('log_' + Date.now());
+      if (dom.logForm && dom.logForm.querySelector('button[type=submit]')) {
+        dom.logForm.querySelector('button[type=submit]').disabled = true;
+      }
+      var photos;
+      try {
+        photos = await uploadPendingLogPhotos(logId);
+      } finally {
+        if (dom.logForm && dom.logForm.querySelector('button[type=submit]')) {
+          dom.logForm.querySelector('button[type=submit]').disabled = false;
+        }
+      }
       await window.GitHubStore.saveLog(state.github, {
-        id: editing ? editing.id : '',
+        id: logId,
         title: title,
         date: dom.logDate.value || '',
+        kind: dom.logKind.value.trim() || '随记',
         body: body,
+        photos: photos,
+        views: editing ? editing.views : 0,
         createdAt: editing ? editing.createdAt : Date.now()
       });
       var manifest = await window.GitHubStore.readLogs(state.github);
       state.logs = normalizeLogs(manifest.logs);
       renderLogs();
       renderCounts();
+      state.logPhotos.forEach(function (photo) {
+        if (photo.blob && photo.url) URL.revokeObjectURL(photo.url);
+      });
+      state.logPhotos = [];
       closeModal('logModal');
       state.logEditing = null;
-      toast(editing ? '日志已更新' : '日志已发布');
+      toast(editing ? '说说已更新，访客约 1 分钟后可见' : '说说已发布，访客约 1 分钟后可见');
     } catch (error) {
       toast(error.message || '日志保存失败', 'error', 6000);
     }
@@ -1110,16 +1270,16 @@
   function confirmDeleteLog(record) {
     if (!state.github) return;
     askConfirm({
-      title: '删除这篇日志？',
-      message: '「' + (record.title || '日志') + '」会同时从仓库和页面移除。',
-      okText: '删除日志',
+      title: '删除这篇说说？',
+      message: '「' + (record.title || '说说') + '」和它的配图会一起从仓库删除，页面也会移除。',
+      okText: '删除说说',
       onConfirm: async function () {
         try {
-          await window.GitHubStore.removeLog(state.github, record);
+          var removed = await window.GitHubStore.removeLog(state.github, record);
           state.logs = state.logs.filter(function (item) { return item.id !== record.id; });
           renderLogs();
           renderCounts();
-          toast('日志已删除');
+          toast(removed && removed.length ? '说说和 ' + removed.length + ' 张配图已从仓库删除' : '说说已删除');
         } catch (error) {
           toast(error.message || '删除失败', 'error', 5000);
         }
@@ -1430,7 +1590,19 @@
     state.settings.profile.coverUrl = '';
     await persistSettings();
     await updateImages();
-    toast('封面已更新');
+    if (!state.github) {
+      toast('封面已换好（只在本机），连接 GitHub 后才会发布给访客', 'info', 5200);
+      return;
+    }
+    toast('封面已更新，正在发布给访客…', 'info', 3200);
+    try {
+      var published = await window.GitHubStore.publishCover(state.github, file);
+      state.settings.profile.coverUrl = published;
+      await persistSettings();
+      toast('封面已发布，约 1 分钟后访客可见', 'success', 5200);
+    } catch (error) {
+      toast('封面已换好（只在本机），发布失败：' + (error.message || '未知错误'), 'error', 6500);
+    }
   }
 
   async function resetCover() {
@@ -1698,6 +1870,7 @@
     document.getElementById('fieldHeadline').value = profile.headline || '';
     document.getElementById('fieldStatus').value = profile.status || '';
     document.getElementById('fieldBio').value = profile.bio || '';
+    document.getElementById('fieldIntro').value = profile.intro || '';
     document.getElementById('fieldLocation').value = profile.location || '';
     document.getElementById('fieldEmail').value = profile.email || '';
     document.getElementById('fieldTags').value = (profile.tags || []).join(', ');
@@ -1720,6 +1893,7 @@
     profile.headline = document.getElementById('fieldHeadline').value.trim();
     profile.status = document.getElementById('fieldStatus').value.trim() || '开放交流';
     profile.bio = document.getElementById('fieldBio').value.trim();
+    profile.intro = document.getElementById('fieldIntro').value.trim();
     profile.location = document.getElementById('fieldLocation').value.trim();
     profile.email = document.getElementById('fieldEmail').value.trim();
     profile.tags = document.getElementById('fieldTags').value.split(/[,，]/)
@@ -2612,12 +2786,14 @@
     if (raw === 'file' || raw === 'files') return 'file';
     if (raw === 'gallery') return 'gallery';
     if (raw === 'logs') return 'logs';
+    if (raw === 'reviews') return 'reviews';
+    if (raw === 'about') return 'about';
     if (raw === 'profile' || raw === 'top' || raw === '') return 'home';
     return 'home';
   }
 
   function showPage(name, options) {
-    var allowed = { home: true, file: true, gallery: true, logs: true };
+    var allowed = { home: true, file: true, gallery: true, logs: true, reviews: true, about: true };
     var page = allowed[name] ? name : 'home';
     Array.prototype.forEach.call(document.querySelectorAll('.page'), function (node) {
       var active = node.dataset.page === page;
@@ -2628,6 +2804,7 @@
       link.classList.toggle('is-active', link.dataset.pageLink === page);
     });
     document.body.dataset.page = page;
+    centerActiveNav({ instant: !!(options && options.instant) });
     if (!options || !options.keepScroll) {
       window.scrollTo({ top: 0, behavior: options && options.instant ? 'auto' : 'smooth' });
     }
@@ -2670,14 +2847,15 @@
   function cacheDom() {
     var ids = [
       'siteHeader', 'brandAvatarImg', 'brandName', 'themeToggle', 'editProfileTop', 'publishBtn',
-      'heroBg', 'heroTitle', 'heroSubtitle', 'heroStatus', 'heroTags', 'heroPlayBtn',
+      'heroBg', 'heroTitle', 'heroSubtitle', 'heroStatus', 'heroPlayBtn',
       'heroFileCount', 'heroPhotoCount', 'heroTrackCount', 'changeCoverBtn', 'resetCoverBtn', 'coverInput',
-      'profileAvatar', 'profileName', 'profileHeadline', 'profileBio', 'profileTags',
+      'profileAvatar', 'profileName', 'profileHeadline', 'profileBio',
       'profileLinks', 'statFiles', 'statPhotos', 'statTracks', 'editProfileBtn',
       'galleryGrid', 'galleryEmpty', 'galleryCount', 'addPhotosBtn', 'galleryEmptyUpload', 'galleryInput', 'addPhotoLinkBtn', 'photoInput',
       'photoCaptionModal', 'photoCaptionForm', 'photoCaptionId', 'photoCaptionInput',
       'logList', 'logsEmpty', 'logCount', 'addLogBtn', 'logsEmptyWrite', 'logModal', 'logForm',
-      'logId', 'logTitle', 'logDate', 'logBody', 'logModalTitle', 'siteNav',
+      'logId', 'logTitle', 'logDate', 'logBody', 'logKind', 'logModalTitle',
+      'logPhotoBtn', 'logPhotoInput', 'logPhotoList', 'logPhotoHint', 'siteNav',
       'fileList', 'filesEmpty', 'fileCount', 'fileInput', 'addFilesBtn', 'addFileLinkBtn',
       'dropzone', 'dropzoneBrowse', 'fileSearch', 'storageText', 'storageBar', 'fileNoResults',
       'filesPanel',
@@ -2703,6 +2881,15 @@
     dom.editProfileTop.addEventListener('click', openProfileEditor);
     dom.editProfileBtn.addEventListener('click', openProfileEditor);
 
+    // About 页：封面按钮与「编辑资料 / 编辑个人介绍」都走同一个名片编辑器，
+    // 这样 About 的内容和名片一起发布到 public/site.json，访客看到的是同一份数据。
+    ['aboutEditBtn', 'editIntroBtn'].forEach(function (id) {
+      var button = document.getElementById(id);
+      if (button) button.addEventListener('click', openProfileEditor);
+    });
+    var aboutCoverBtn = document.getElementById('aboutCoverBtn');
+    if (aboutCoverBtn) aboutCoverBtn.addEventListener('click', function () { dom.coverInput.click(); });
+
     dom.changeCoverBtn.addEventListener('click', function () { dom.coverInput.click(); });
     if (dom.resetCoverBtn) dom.resetCoverBtn.addEventListener('click', guard(resetCover));
     dom.coverInput.addEventListener('change', guard(async function () {
@@ -2722,6 +2909,12 @@
     if (dom.addLogBtn) dom.addLogBtn.addEventListener('click', function () { openLogEditor(null); });
     if (dom.logsEmptyWrite) dom.logsEmptyWrite.addEventListener('click', function () { openLogEditor(null); });
     if (dom.logForm) dom.logForm.addEventListener('submit', guard(saveLogEntry));
+    if (dom.logPhotoBtn) dom.logPhotoBtn.addEventListener('click', function () { dom.logPhotoInput.click(); });
+    if (dom.logPhotoInput) dom.logPhotoInput.addEventListener('change', guard(async function () {
+      var files = Array.prototype.slice.call(dom.logPhotoInput.files || []);
+      dom.logPhotoInput.value = '';
+      await addLogPhotos(files);
+    }));
     if (dom.logList) dom.logList.addEventListener('click', function (event) {
       var toggle = event.target.closest('.log-toggle');
       if (!toggle) return;
@@ -2969,7 +3162,96 @@
     initReveal();
     initPlayer();
     updateStorage();
+    syncHeaderHeight();
+    bindHeaderSync();
+    bindNavScroll();
+    centerActiveNav({ instant: true });
   }
+
+  /* 手机端导航换成两行后 header 会比 --header-h 高，这里把真实高度写回变量，
+     hero / page-head / scroll-padding 都靠它对齐，避免按钮压在内容上或顶部被裁 */
+  var headerSyncBound = false;
+  function syncHeaderHeight() {
+    var header = document.querySelector('.site-header');
+    if (!header) return;
+    var h = header.getBoundingClientRect().height;
+    if (h > 0) document.documentElement.style.setProperty('--header-h', Math.round(h) + 'px');
+  }
+  function bindHeaderSync() {
+    if (headerSyncBound) return;
+    headerSyncBound = true;
+    var pending = false;
+    var run = function () {
+      if (pending) return;
+      pending = true;
+      requestAnimationFrame(function () { pending = false; syncHeaderHeight(); });
+    };
+    window.addEventListener('resize', run);
+    window.addEventListener('orientationchange', run);
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(syncHeaderHeight).catch(function () {});
+    }
+  }
+
+  /* 手机端导航是单行横向滑动：按还能往左/往右滑，给容器加类名做边缘渐隐；
+     切页时把当前项滚进可视区，避免“明明点了却看不见” */
+  var navStateBound = false;
+  function navNode() {
+    return document.querySelector('.site-nav');
+  }
+  function syncNavScroll() {
+    var nav = navNode();
+    if (!nav) return;
+    var max = nav.scrollWidth - nav.clientWidth;
+    var canScroll = max > 2;
+    nav.classList.toggle('can-scroll-left', canScroll && nav.scrollLeft > 2);
+    nav.classList.toggle('can-scroll-right', canScroll && nav.scrollLeft < max - 2);
+  }
+  function centerActiveNav(options) {
+    var nav = navNode();
+    if (!nav) return;
+    var active = nav.querySelector('a.is-active');
+    if (!active) { syncNavScroll(); return; }
+    var navRect = nav.getBoundingClientRect();
+    var linkRect = active.getBoundingClientRect();
+    var offset = (linkRect.left - navRect.left) - (navRect.width - linkRect.width) / 2;
+    if (Math.abs(offset) < 4) { syncNavScroll(); return; }
+    if (options && options.instant) {
+      var prev = nav.style.scrollBehavior;
+      nav.style.scrollBehavior = 'auto';
+      nav.scrollLeft += offset;
+      nav.style.scrollBehavior = prev;
+    } else {
+      nav.scrollLeft += offset;
+    }
+    syncNavScroll();
+  }
+  function bindNavScroll() {
+    if (navStateBound) return;
+    navStateBound = true;
+    var nav = navNode();
+    if (!nav) return;
+    var more = document.getElementById('navMore');
+    if (more) {
+      more.addEventListener('click', function () {
+        nav.scrollBy({ left: Math.max(140, Math.round(nav.clientWidth * 0.7)), behavior: 'smooth' });
+      });
+    }
+    nav.addEventListener('scroll', syncNavScroll, { passive: true });
+    window.addEventListener('resize', syncNavScroll);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(syncNavScroll).catch(function () {});
+    syncNavScroll();
+  }
+
+  /* 给 pages.js（测评封面等）用的最小上传接口，避免重复实现压缩逻辑 */
+  window.AtlasAssets = {
+    compress: function (file) { return compressGalleryImage(file); },
+    hasRepo: function () { return !!state.github; },
+    upload: function (path, blob, message) {
+      if (!state.github) return Promise.reject(new Error('请先在「发布」里连接 GitHub'));
+      return window.GitHubStore.uploadAsset(state.github, path, blob, message);
+    }
+  };
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
