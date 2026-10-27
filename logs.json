@@ -1,0 +1,72 @@
+{
+  "updatedAt": "2026-10-27T00:00:00.000Z",
+  "logs": [
+    {
+      "id": "log_demo_1",
+      "title": "凌晨的机房，和一杯冷掉的咖啡",
+      "date": "2026-10-26",
+      "kind": "随记",
+      "body": "把最后一批配置推上去的时候已经过了零点。机房的风扇声很稳定，像某种白噪音。窗外没有灯，屏幕的光落在键盘上，突然觉得这种安静也挺好。",
+      "photos": [
+        "public/gallery/Myethos 流萤 春日手信.jpg",
+        "public/gallery/GSC POPUP 春日野穹.jpg",
+        "public/gallery/Alter 春日野穹 BunnyStyle.jpg"
+      ],
+      "views": 23,
+      "createdAt": 1793001600000
+    },
+    {
+      "id": "log_demo_2",
+      "title": "关于「慢一点」的练习",
+      "date": "2026-10-25",
+      "kind": "日常",
+      "body": "最近在练习一件事：做完一个决定之后，不要立刻去找第二个决定。让事情停在半空里一会儿，看看它自己会往哪里落。以前总想把每一步都安排好，后来发现，真正让生活变得不一样的，往往是那些没有计划进来的空隙。今天把手机放在另一个房间，读完了一本拖了很久的书。没有做笔记，也没有发朋友圈，只是读完了。感觉很好，决定以后每周都留一个这样的晚上。",
+      "photos": [],
+      "views": 41,
+      "createdAt": 1792915200000
+    },
+    {
+      "id": "log_demo_3",
+      "title": "春日野穹 · 棚拍记录",
+      "date": "2026-10-24",
+      "kind": "摄影",
+      "body": "第一次尝试用柔光箱做主光，背景纸换成暖灰色，比纯白更耐看。后期只做了轻微的色彩统一，保留了皮肤本身的质感。",
+      "photos": ["public/gallery/GSC POPUP 春日野穹.jpg"],
+      "views": 46,
+      "createdAt": 1792828800000
+    },
+    {
+      "id": "log_demo_4",
+      "title": "这一卷拍完，夏天也结束了",
+      "date": "2026-10-22",
+      "kind": "胶片",
+      "body": "九张里能看的只有这几张。但按下快门的时候，确实觉得那一刻值得留下来。",
+      "photos": [
+        "public/gallery/Myethos 流萤 春日手信.jpg",
+        "public/gallery/GSC POPUP 春日野穹.jpg",
+        "public/gallery/Alter 春日野穹 BunnyStyle.jpg",
+        "public/gallery/Alter 春日野穹 旗袍ver..jpg",
+        "public/gallery/AMAKUNI 春物完篇 一色彩羽.jpg",
+        "public/gallery/APEX 八重樱 旗袍ver..jpg",
+        "public/gallery/Alphamax 春日野穹 和服ver..jpg",
+        "public/gallery/MegaHouse BrilliantStage 春日野穹.jpg",
+        "public/gallery/4d671b4f871f03fe185ace2837bb3375_720.jpg"
+      ],
+      "views": 71,
+      "createdAt": 1792656000000
+    },
+    {
+      "id": "log_demo_5",
+      "title": "给资料库做了一次大扫除",
+      "date": "2026-10-20",
+      "kind": "记录",
+      "body": "删掉了 30 多个过期文件，把常用的资料重新按项目归档。现在打开 Files 页面终于不用先叹气了。",
+      "photos": [
+        "public/gallery/Alter 春日野穹 旗袍ver..jpg",
+        "public/gallery/AMAKUNI 春物完篇 一色彩羽.jpg"
+      ],
+      "views": 18,
+      "createdAt": 1792483200000
+    }
+  ]
+}

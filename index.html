@@ -9,7 +9,7 @@
 
   <link rel="icon" href="assets/img/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/img/favicon.png?v=2">
-  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261027E">
 
   <!-- 主题在首帧前应用，避免闪烁 -->
   <script>
@@ -90,7 +90,12 @@
         <a href="#file" data-page-link="file">Files</a>
         <a href="#gallery" data-page-link="gallery">Gallery</a>
         <a href="#logs" data-page-link="logs">Logs</a>
+        <a href="#reviews" data-page-link="reviews">Reviews</a>
+        <a href="#about" data-page-link="about">About</a>
       </nav>
+      <button class="nav-more" id="navMore" type="button" aria-label="显示后面的导航">
+        <svg class="icon" aria-hidden="true"><use href="#i-chevron-right"></use></svg>
+      </button>
 
       <div class="header-actions">
         <button class="icon-btn publish-btn owner-only" id="publishBtn" type="button" aria-label="发布设置" title="发布与公开资料设置">
@@ -128,8 +133,6 @@
           <h1 class="hero-title" id="heroTitle">循此苦旅，终抵群星</h1>
           <p class="hero-subtitle" id="heroSubtitle">Hello World !</p>
 
-          <div class="hero-tags" id="heroTags"></div>
-
           <div class="hero-actions">
             <a class="btn btn-primary" href="#file" data-page-link="file">
               <svg class="icon"><use href="#i-folder"></use></svg>
@@ -144,9 +147,15 @@
 
         <div class="hero-foot">
           <div class="hero-meta">
-            <span><strong id="heroFileCount">0</strong> 份资料</span>
+            <span><strong id="heroFileCount">0</strong> 资料</span>
             <span class="dot-sep"></span>
             <span><strong id="heroTrackCount">0</strong> 首歌</span>
+            <span class="dot-sep"></span>
+            <span><strong id="heroPhotoCount">0</strong> 摄影</span>
+            <span class="dot-sep"></span>
+            <span><strong id="heroLogCount">0</strong> 说说</span>
+            <span class="dot-sep"></span>
+            <span><strong id="heroReviewCount">0</strong> 测评</span>
           </div>
           <div class="hero-foot-actions">
             <button class="chip chip-ghost owner-only" id="resetCoverBtn" type="button" hidden>
@@ -164,16 +173,9 @@
       </div>
     </section>
 
+    <div class="home-grid container">
     <!-- ============ 名片 ============ -->
-    <section class="section container reveal" id="profile">
-      <div class="section-head">
-        <div>
-          <span class="eyebrow">PROFILE</span>
-          <h2>我的名片</h2>
-        </div>
-        <span class="section-aside" id="profileAside">在这里介绍你自己</span>
-      </div>
-
+    <section class="section reveal" id="profile">
       <div class="profile-card panel">
         <div class="profile-main">
           <div class="avatar-wrap">
@@ -191,34 +193,22 @@
               这里是我的个人主页。我把工作用的文件、喜欢的图片和常听的音乐整理在一起，随时更换，随时删除。
             </p>
 
-            <div class="profile-tags" id="profileTags"></div>
-
-            <div class="profile-links" id="profileLinks"></div>
           </div>
         </div>
 
-        <aside class="profile-side">
-          <div class="stats">
-            <div class="stat">
-              <strong id="statFiles">0</strong>
-              <span>资料</span>
-            </div>
-            <div class="stat">
-              <strong id="statTracks">0</strong>
-              <span>音乐</span>
-            </div>
-          </div>
-          <button class="btn btn-soft btn-block owner-only" id="editProfileBtn" type="button">
-            <svg class="icon"><use href="#i-edit"></use></svg>
-            编辑名片
-          </button>
-          <p class="side-note">
-            <svg class="icon"><use href="#i-cloud"></use></svg>
-            名片与资料可发布到 GitHub
-          </p>
-        </aside>
+        <div class="profile-links" id="profileLinks"></div>
+        <div class="profile-foot">
+          <a class="profile-go" href="#about" data-page-link="about">查看关于我 <span aria-hidden="true">→</span></a>
+          <button class="link-btn owner-only" id="editProfileBtn" type="button">编辑名片</button>
+        </div>
       </div>
     </section>
+
+    <aside class="recent-panel panel reveal" aria-label="最近动态">
+      <div class="recent-head"><div><h3>最近动态</h3><span class="eyebrow">RECENT UPDATES</span></div><span class="recent-count" id="recentCount">03</span></div>
+      <div class="recent-list" id="recentList"></div>
+    </aside>
+    </div>
     </div>
 
     <div class="page" id="page-file" data-page="file" hidden>
@@ -355,22 +345,22 @@
         <div class="section-head page-head">
           <div>
             <span class="eyebrow">LOGS</span>
-            <h2>随记 <span class="count-pill" id="logCount">0</span></h2>
+            <h2>说说 <span class="count-pill" id="logCount">0</span></h2>
             <p class="page-desc">心事浩茫连广宇，于无声处听惊雷。</p>
           </div>
           <div class="head-actions owner-only">
             <button class="btn btn-primary btn-sm" id="addLogBtn" type="button">
               <svg class="icon"><use href="#i-edit"></use></svg>
-              写日志
+              写说说
             </button>
           </div>
         </div>
 
-        <div class="log-list" id="logList"></div>
+        <div class="log-masonry" id="logList"></div>
 
         <div class="empty-state" id="logsEmpty" hidden>
           <div class="empty-art"><svg class="icon"><use href="#i-edit"></use></svg></div>
-          <h3>还没有日志</h3>
+          <h3>还没有说说</h3>
           <p>这个人很懒，什么都没有写。</p>
           <div class="empty-actions">
             <button class="btn btn-primary btn-sm owner-only" id="logsEmptyWrite" type="button">
@@ -379,6 +369,34 @@
             </button>
           </div>
         </div>
+      </section>
+    </div>
+
+    <div class="page" id="page-reviews" data-page="reviews" hidden>
+      <section class="section container">
+        <div class="section-head page-head">
+          <div><span class="eyebrow">REVIEWS</span><h2>测评 <span class="count-pill" id="reviewCount">0</span></h2><p class="page-desc">把喜欢的东西拆开看看，也把真实的感受写下来。</p></div>
+          <div class="head-actions owner-only"><button class="btn btn-primary btn-sm" id="addReviewBtn" type="button">写测评</button></div>
+        </div>
+        <div class="review-filters" id="reviewFilters"><button class="is-active" data-review-filter="all">全部 <b>0</b></button><button data-review-filter="game">游戏 <b>0</b></button><button data-review-filter="film">影视 <b>0</b></button><button data-review-filter="book">书籍 <b>0</b></button></div>
+        <div class="review-list" id="reviewList"></div>
+        <div class="empty-state" id="reviewsEmpty" hidden><div class="empty-art"><svg class="icon"><use href="#i-edit"></use></svg></div><h3>还没有测评</h3><p>写第一篇测评，把感受留下来。</p></div>
+      </section>
+    </div>
+
+    <div class="page" id="page-about" data-page="about" hidden>
+      <section class="section container">
+        <article class="about-card panel">
+          <div class="about-hero"><img id="aboutCover" src="assets/img/cover-default.jpg" alt=""><button class="chip chip-ghost owner-only" id="aboutCoverBtn" type="button">更换封面</button></div>
+          <div class="about-body">
+            <div class="about-top"><span class="about-avatar"><img id="aboutAvatar" src="assets/img/avatar-default.jpg" alt=""></span><button class="btn btn-ghost btn-sm owner-only" id="aboutEditBtn" type="button">编辑资料</button></div>
+            <h1>关于我</h1>
+            <p class="about-line" id="aboutLine">Hello World! I'm YunXi</p>
+            <p class="about-intro" id="aboutIntro"></p>
+            <button class="link-btn about-intro-edit owner-only" id="editIntroBtn" type="button">编辑个人介绍</button>
+            <div class="profile-links" id="aboutLinks"></div>
+          </div>
+        </article>
       </section>
     </div>
   </main>
@@ -538,6 +556,11 @@
           <label class="field field-full">
             <span>个人介绍</span>
             <textarea class="input textarea" id="fieldBio" rows="4" maxlength="300" placeholder="介绍一下你自己……"></textarea>
+          </label>
+
+          <label class="field field-full">
+            <span>关于页介绍 <em>显示在 About 页签名下方，随名片一起发布</em></span>
+            <textarea class="input textarea" id="fieldIntro" rows="4" maxlength="240" placeholder="写一点关于你自己的话……"></textarea>
           </label>
 
           <label class="field">
@@ -741,7 +764,7 @@
     <div class="modal-backdrop" data-close="logModal"></div>
     <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="logModalTitle">
       <header class="modal-head">
-        <div><span class="eyebrow">LOG</span><h3 id="logModalTitle">写日志</h3></div>
+        <div><span class="eyebrow">LOG</span><h3 id="logModalTitle">写说说</h3></div>
         <button class="icon-btn" type="button" data-close="logModal" aria-label="关闭">
           <svg class="icon"><use href="#i-x"></use></svg>
         </button>
@@ -757,16 +780,38 @@
             <span>日期</span>
             <input class="input" type="date" id="logDate">
           </label>
+          <label class="field">
+            <span>分类</span>
+            <input class="input" type="text" id="logKind" maxlength="12" placeholder="随记" list="logKindOptions">
+            <datalist id="logKindOptions">
+              <option value="随记"></option>
+              <option value="胶质"></option>
+              <option value="摄影"></option>
+              <option value="日常"></option>
+              <option value="记录"></option>
+            </datalist>
+          </label>
         </div>
         <label class="field">
           <span>正文</span>
           <textarea class="input textarea" id="logBody" rows="10" maxlength="6000" required placeholder="写点什么……"></textarea>
         </label>
+        <div class="field field-full">
+          <span>图片<span class="field-hint" id="logPhotoHint">最多 9 张，自动压缩到 500KB 内</span></span>
+          <div class="photo-edit" id="logPhotoList"></div>
+          <div class="photo-edit-actions">
+            <button class="btn btn-ghost" type="button" id="logPhotoBtn">
+              <svg class="icon"><use href="#i-image"></use></svg>
+              添加图片
+            </button>
+            <input type="file" id="logPhotoInput" accept="image/*" multiple hidden>
+          </div>
+        </div>
         <div class="modal-actions">
           <button class="btn btn-ghost" type="button" data-close="logModal">取消</button>
           <button class="btn btn-primary" type="submit">
             <svg class="icon"><use href="#i-check"></use></svg>
-            保存日志
+            保存说说
           </button>
         </div>
       </form>
@@ -774,6 +819,62 @@
   </div>
 
   <!-- ============ 确认框 ============ -->
+
+
+  <div class="modal" id="reviewModal" hidden>
+    <div class="modal-backdrop" data-close="reviewModal"></div>
+    <div class="modal-card modal-lg">
+      <header class="modal-head">
+        <div><span class="eyebrow">REVIEW</span><h3>写测评</h3></div>
+        <button class="icon-btn" type="button" data-close="reviewModal" aria-label="关闭">×</button>
+      </header>
+      <form id="reviewForm" class="modal-body">
+        <label class="field field-full"><span>标题</span>
+          <input class="input" id="reviewTitle" maxlength="60" required placeholder="作品名 / 版本">
+        </label>
+        <div class="form-grid">
+          <label class="field"><span>分类</span>
+            <select class="input" id="reviewCat">
+              <option value="game">游戏</option>
+              <option value="film">影视</option>
+              <option value="book">书籍</option>
+            </select>
+          </label>
+          <label class="field"><span>评分（0–10）</span>
+            <input class="input" id="reviewScore" type="number" min="0" max="10" step="0.1" value="8.5">
+          </label>
+        </div>
+        <label class="field field-full"><span>副标题</span>
+          <input class="input" id="reviewSub" maxlength="60" placeholder="游戏 · 版本体验">
+        </label>
+        <div class="field field-full">
+          <span>封面图<span class="field-hint">不填就用默认封面</span></span>
+          <div class="cover-edit">
+            <div class="cover-edit-preview" id="reviewCoverPreview"></div>
+            <div class="cover-edit-side">
+              <button class="btn btn-ghost" type="button" id="reviewCoverBtn">
+                <svg class="icon"><use href="#i-image"></use></svg>
+                上传封面
+              </button>
+              <input type="file" id="reviewCoverInput" accept="image/*" hidden>
+              <input class="input" id="reviewCover" placeholder="或填链接：public/gallery/xxx.jpg">
+            </div>
+          </div>
+        </div>
+        <label class="field field-full"><span>正文</span>
+          <textarea class="input textarea" id="reviewText" rows="6" maxlength="600" required></textarea>
+        </label>
+        <div class="modal-actions">
+          <button class="btn btn-ghost" type="button" data-close="reviewModal">取消</button>
+          <button class="btn btn-primary" type="submit">
+            <svg class="icon"><use href="#i-check"></use></svg>
+            保存测评
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <div class="modal" id="confirmModal" hidden>
     <div class="modal-backdrop" data-close="confirmModal"></div>
     <div class="modal-card modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle">
@@ -800,7 +901,8 @@
   <div class="toasts" id="toasts" aria-live="polite" aria-atomic="false"></div>
 
   <script src="assets/js/db.js"></script>
-  <script src="assets/js/github.js"></script>
-  <script src="assets/js/app.js"></script>
+  <script src="assets/js/github.js?v=20261027j"></script>
+  <script src="assets/js/app.js?v=20261027q"></script>
+  <script src="assets/js/pages.js?v=20261027p"></script>
 </body>
 </html>
