@@ -179,23 +179,87 @@
     }
   }
 
-  function recentData() {
-    return [
-      { page: 'logs', tag: '说说', time: '10 / 26 · 00:12', title: '凌晨的机房，和一杯冷掉的咖啡', img: 'public/gallery/Myethos 流萤 春日手信.jpg' },
-      { page: 'reviews', tag: '测评', time: '10 / 25 · 21:40', title: 'Myethos 流萤 春日手信 · 9.2', img: 'public/gallery/Myethos 流萤 春日手信.jpg' },
-      { page: 'gallery', tag: '摄影', time: '10 / 24 · 18:03', title: '新拍 6 张春日野穹棚拍', img: 'public/gallery/GSC POPUP 春日野穹.jpg' }
-    ];
+  /* ---- 最近动态：用真实数据（说说 + 测评）按时间倒序取 3 条 ---- */
+  var recentLogs = null;
+
+  function pad2num(value) { return String(Number(value) || 0).padStart(2, '0'); }
+
+  function dayLabel(ms) {
+    if (!ms) return '';
+    var d = new Date(ms);
+    if (isNaN(d.getTime())) return '';
+    return pad2num(d.getMonth() + 1) + ' / ' + pad2num(d.getDate());
   }
+
+  function logTime(record) {
+    var date = String(record.date || '');
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(date);
+    if (m) return m[2] + ' / ' + m[3];
+    return dayLabel(Date.parse(date));
+  }
+
+  function recentItems() {
+    var items = [];
+    (recentLogs || []).forEach(function (log) {
+      var photos = Array.isArray(log.photos) ? log.photos : [];
+      items.push({
+        page: 'logs',
+        tag: log.kind || '说说',
+        time: logTime(log),
+        title: log.title || '无标题',
+        img: photos[0] || '',
+        sortAt: Date.parse(log.date) || 0,
+      });
+    });
+    reviews.forEach(function (review) {
+      items.push({
+        page: 'reviews',
+        tag: '测评',
+        time: dayLabel(Date.parse(review.createdAt || review.updatedAt || '')),
+        title: (review.title || '测评') + (review.score ? ' · ' + Number(review.score).toFixed(1) : ''),
+        img: review.cover || '',
+        sortAt: Date.parse(review.createdAt || review.updatedAt || '') || 0,
+      });
+    });
+    items.sort(function (a, b) { return b.sortAt - a.sortAt; });
+    return items.slice(0, 3);
+  }
+
+  async function loadRecentLogs() {
+    if (recentLogs) return recentLogs;
+    try {
+      var response = await fetch('public/logs.json?v=' + Date.now(), { cache: 'no-store' });
+      if (response.ok) {
+        var data = await response.json();
+        recentLogs = Array.isArray(data.logs) ? data.logs : [];
+      }
+    } catch (error) {
+      console.warn('public/logs.json 读取失败', error);
+    }
+    recentLogs = recentLogs || [];
+    return recentLogs;
+  }
+
   function renderRecent() {
     var wrap = document.getElementById('recentList');
     if (!wrap) return;
+    var items = recentItems();
     wrap.innerHTML = '';
-    recentData().forEach(function (item) {
+    if (!items.length) {
+      var blank = document.createElement('div');
+      blank.className = 'recent-item is-empty';
+      blank.innerHTML = '<span><div class="ri-meta"><span>动态</span><span></span></div><div class="ri-title">还没有动态</div></span>';
+      wrap.appendChild(blank);
+      return;
+    }
+    items.forEach(function (item) {
       var a = document.createElement('a');
       a.className = 'recent-item';
       a.href = '#' + item.page;
       a.setAttribute('data-page-link', item.page);
-      a.innerHTML = '<img src="' + esc(coverUrl(item.img)) + '" alt=""><span class="ri-arrow">↗</span><span><div class="ri-meta"><span>' + esc(item.tag) + '</span><span>' + esc(item.time) + '</span></div><div class="ri-title">' + esc(item.title) + '</div></span>';
+      if (!item.img) a.classList.add('is-plain');
+      var img = item.img ? '<img class="recent-bg" src="' + esc(coverUrl(item.img)) + '" alt="">' : '';
+      a.innerHTML = img + '<span class="ri-arrow">↗</span><span><div class="ri-meta"><span>' + esc(item.tag) + '</span><span>' + esc(item.time) + '</span></div><div class="ri-title">' + esc(item.title) + '</div></span>';
       wrap.appendChild(a);
     });
   }
@@ -345,7 +409,6 @@
   });
 
   document.addEventListener('DOMContentLoaded', async function () {
-    renderRecent();
     renderAbout();
     bind();
     renderReviews('all');
@@ -354,5 +417,8 @@
     reviews = loaded.rows;
     reviewSource = loaded.source;
     renderReviews(currentFilter);
+
+    await loadRecentLogs();
+    renderRecent();
   });
 })();
