@@ -1,4 +1,18 @@
 {
-  "updatedAt": "2026-10-27T23:55:00.000Z",
-  "logs": []
+  "updatedAt": "2026-10-27T16:09:38.924Z",
+  "logs": [
+    {
+      "id": "log_1793117372003",
+      "title": "Test txt",
+      "date": "2026-10-28",
+      "kind": "随记",
+      "body": "Hello World!",
+      "photos": [
+        "public/logs/log_1793117372003/p1-1793117372005.webp"
+      ],
+      "views": 0,
+      "createdAt": 1793117376774,
+      "updatedAt": 1793117378923
+    }
+  ]
 }
