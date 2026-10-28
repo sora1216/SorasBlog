@@ -5,9 +5,9 @@
     "tagline": "Hello World !",
     "headline": "Faze的香奈美本人",
     "status": "嗨♪",
-    "bio": "欢迎来到我的个人主页！网站的初衷是用来共享我制作的工作资料，按照个人兴趣增加了一些页面分享日常，工作闲暇之余给自己找点事做。",
-    "intro": "",
-    "location": "中国·重庆",
+    "bio": "欢迎来到我的个人主页！\n网站的初衷是用来共享我制作的工作资料，按照个人兴趣增加了一些页面分享日常，工作闲暇之余给自己找点事做。",
+    "intro": "你好，我是芸曦。\n笔名来自于高中时期的碎碎念。\n\n职业专注于电气自动化、PLC以及机器人调试方向，自动化行业打工人，常年出差。",
+    "location": "幻想乡",
     "email": "",
     "tags": [],
     "github": "https://github.com/sora1216",
@@ -15,7 +15,7 @@
     "website": "https://github.com/sora1216/SorasBlog"
   },
   "avatar": "public/avatar.jpg",
-  "cover": "public/cover.jpg",
+  "cover": "",
   "theme": "light",
-  "updatedAt": "2026-10-28T00:24:36.824Z"
+  "updatedAt": "2026-10-28T01:14:19.867Z"
 }
