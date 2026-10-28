@@ -139,7 +139,7 @@
           '<p class="review-sub">' + esc(r.sub || '') + '</p>' +
           '<p class="review-text">' + esc(r.text) + '</p>' +
           '<button class="review-toggle" type="button">展开全文</button>' +
-          '<div class="review-foot"><span>图 ' + (Number(r.images) || 0) + ' 张</span>' +
+          '<div class="review-foot">' +
             '<span>' + Number(r.score).toFixed(1) + ' / 10</span>' +
             (canManage ? '<button class="review-del owner-only" type="button">删除</button>' : '') +
           '</div>' +
@@ -147,7 +147,6 @@
 
       var text = card.querySelector('.review-text');
       var toggle = card.querySelector('.review-toggle');
-      if (text.scrollHeight <= text.clientHeight + 2) toggle.style.display = 'none';
       toggle.addEventListener('click', function () {
         var open = text.classList.toggle('is-open');
         toggle.textContent = open ? '收起' : '展开全文';
@@ -160,6 +159,7 @@
     });
 
     renderFilters();
+    scheduleReviewToggles();
   }
 
   async function removeReview(review) {
@@ -271,10 +271,29 @@
     var aboutCover = document.getElementById('aboutCover');
     if (aboutAvatar && brandAvatar && brandAvatar.getAttribute('src')) aboutAvatar.src = brandAvatar.getAttribute('src');
     if (aboutCover && heroBg && heroBg.getAttribute('src')) aboutCover.src = heroBg.getAttribute('src');
-    var links = document.getElementById('aboutLinks');
-    if (links) {
-      links.innerHTML = '<span class="chip"><svg class="icon"><use href="#i-github"></use></svg>GitHub</span><span class="chip"><svg class="icon"><use href="#i-bilibili"></use></svg>Bilibili</span><span class="chip"><svg class="icon"><use href="#i-globe"></use></svg>sora1216.github.io</span><span class="chip"><svg class="icon"><use href="#i-pin"></use></svg>幻想乡</span>';
-    }
+  }
+
+  /* 卡片渲染时字体/布局还没稳定，量出来的高度不可信，所以晚一帧再决定要不要显示「展开全文」 */
+  function syncReviewToggles() {
+    var list = document.getElementById('reviewList');
+    if (!list) return;
+    Array.prototype.forEach.call(list.querySelectorAll('.review-card'), function (card) {
+      var text = card.querySelector('.review-text');
+      var toggle = card.querySelector('.review-toggle');
+      if (!text || !toggle) return;
+      if (text.classList.contains('is-open')) { toggle.style.display = ''; return; }
+      var clamped = text.scrollHeight > text.clientHeight + 2;
+      toggle.style.display = clamped ? '' : 'none';
+    });
+  }
+
+  function scheduleReviewToggles() {
+    requestAnimationFrame(function () {
+      syncReviewToggles();
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function () { requestAnimationFrame(syncReviewToggles); });
+      }
+    });
   }
 
   function closeModal(id) { var m = document.getElementById(id); if (m) m.hidden = true; }

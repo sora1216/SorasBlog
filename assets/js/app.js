@@ -205,6 +205,15 @@
     }
   }
 
+  /* 网站胶囊的文字跟着实际链接走：去掉协议和 www，保留域名+路径，过长截断 */
+  function linkLabel(value) {
+    var url = normalizeUrl(value);
+    if (!url) return '个人网站';
+    var label = url.replace(/^[a-z][a-z0-9+.-]*:\/\//i, '').replace(/^www\./i, '').replace(/\/+$/, '');
+    if (!label) return '个人网站';
+    return label.length > 30 ? label.slice(0, 29) + '…' : label;
+  }
+
   function extOf(name) {
     var match = String(name || '').toLowerCase().match(/\.([a-z0-9]+)$/);
     return match ? match[1] : '';
@@ -676,8 +685,7 @@
     renderLinks(profile);
   }
 
-  function renderLinks(profile) {
-    var container = document.getElementById('profileLinks');
+  function fillLinkChips(container, profile) {
     if (!container) return;
     container.innerHTML = '';
 
@@ -685,7 +693,8 @@
     var links = [];
     links.push({ icon: 'github', label: 'GitHub', href: normalizeUrl(profile.github || 'https://github.com/sora1216') });
     links.push({ icon: 'bilibili', label: 'Bilibili', href: normalizeUrl(profile.bilibili || 'https://space.bilibili.com/45006938') });
-    links.push({ icon: 'globe', label: 'sora1216.github.io', href: normalizeUrl(profile.website || 'https://sora1216.github.io/SorasBlog/') });
+    var siteHref = normalizeUrl(profile.website || 'https://sora1216.github.io/SorasBlog/');
+    links.push({ icon: 'globe', label: linkLabel(siteHref), href: siteHref });
 
     links.forEach(function (item) {
       container.appendChild(
@@ -704,6 +713,11 @@
     }
 
     container.hidden = container.children.length === 0;
+  }
+
+  function renderLinks(profile) {
+    fillLinkChips(document.getElementById('profileLinks'), profile);
+    fillLinkChips(document.getElementById('aboutLinks'), profile);
   }
 
   function pad2(value){ return String(Number(value || 0)).padStart(2, '0'); }
@@ -1082,16 +1096,13 @@
       var card = h('article', { class: 'log-card' + (isLong ? '' : ' is-open'), dataset: { id: record.id } },
         h('div', { class: 'log-meta' },
           h('span', { class: 'log-date' }, formatLogDate(record.date)),
-          h('span', { class: 'log-kind' }, record.kind || '随记'),
           actions
         ),
         h('h3', { class: 'log-title' }, record.title || '无标题'),
         h('div', { class: 'log-body' }, record.body || ''),
         photoGrid || '',
         photos.length ? h('div', { class: 'log-foot' },
-          h('span', null, photos.length + ' 张图片'),
-          h('span', { class: 'dotline' }),
-          h('span', null, (record.views || 0) + ' 次浏览')
+          h('span', null, photos.length + ' 张图片')
         ) : ''
       );
       if (isLong) {
@@ -1104,13 +1115,34 @@
     });
   }
 
+  function openLogView(id) {
+    var record = null;
+    for (var i = 0; i < state.logs.length; i++) {
+      if (state.logs[i].id === id) { record = state.logs[i]; break; }
+    }
+    if (!record || !dom.logViewModal) return;
+    setText('logViewTitle', record.title || '无标题');
+    if (dom.logViewDate) dom.logViewDate.textContent = formatLogDate(record.date) || 'LOG';
+    if (dom.logViewBody) dom.logViewBody.textContent = record.body || '';
+    if (dom.logViewPhotos) {
+      dom.logViewPhotos.innerHTML = '';
+      var photos = Array.isArray(record.photos) ? record.photos : [];
+      photos.forEach(function (url) {
+        dom.logViewPhotos.appendChild(h('img', { src: url, alt: '', loading: 'lazy' }));
+      });
+      dom.logViewPhotos.className = 'log-view-photos' +
+        (photos.length === 1 ? ' one' : photos.length === 2 ? ' two' : '');
+      dom.logViewPhotos.hidden = photos.length === 0;
+    }
+    dom.logViewModal.hidden = false;
+  }
+
   function openLogEditor(record) {
     if (!dom.logModal) return;
     state.logEditing = record || null;
     dom.logId.value = record ? record.id : '';
     dom.logTitle.value = record ? record.title : '';
     dom.logBody.value = record ? record.body : '';
-    dom.logKind.value = record ? (record.kind || '') : '随记';
     if (!record) {
       var now = new Date();
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -1245,7 +1277,7 @@
         id: logId,
         title: title,
         date: dom.logDate.value || '',
-        kind: dom.logKind.value.trim() || '随记',
+        kind: (editing && editing.kind) || '随记',
         body: body,
         photos: photos,
         views: editing ? editing.views : 0,
@@ -2854,7 +2886,8 @@
       'galleryGrid', 'galleryEmpty', 'galleryCount', 'addPhotosBtn', 'galleryEmptyUpload', 'galleryInput', 'addPhotoLinkBtn', 'photoInput',
       'photoCaptionModal', 'photoCaptionForm', 'photoCaptionId', 'photoCaptionInput',
       'logList', 'logsEmpty', 'logCount', 'addLogBtn', 'logsEmptyWrite', 'logModal', 'logForm',
-      'logId', 'logTitle', 'logDate', 'logBody', 'logKind', 'logModalTitle',
+      'logId', 'logTitle', 'logDate', 'logBody', 'logModalTitle',
+      'logViewModal', 'logViewTitle', 'logViewBody', 'logViewPhotos', 'logViewDate',
       'logPhotoBtn', 'logPhotoInput', 'logPhotoList', 'logPhotoHint', 'siteNav',
       'fileList', 'filesEmpty', 'fileCount', 'fileInput', 'addFilesBtn', 'addFileLinkBtn',
       'dropzone', 'dropzoneBrowse', 'fileSearch', 'storageText', 'storageBar', 'fileNoResults',
@@ -2917,12 +2950,18 @@
     }));
     if (dom.logList) dom.logList.addEventListener('click', function (event) {
       var toggle = event.target.closest('.log-toggle');
-      if (!toggle) return;
-      var card = toggle.closest('.log-card');
-      if (!card) return;
-      var open = card.classList.toggle('is-open');
-      var label = toggle.querySelector('span');
-      if (label) label.textContent = open ? '收起' : '展开全文';
+      if (toggle) {
+        var card = toggle.closest('.log-card');
+        if (!card) return;
+        var open = card.classList.toggle('is-open');
+        var label = toggle.querySelector('span');
+        if (label) label.textContent = open ? '收起' : '展开全文';
+        return;
+      }
+      if (event.target.closest('button, a, input, textarea, select')) return;
+      var target = event.target.closest('.log-card');
+      if (!target) return;
+      openLogView(target.getAttribute('data-id'));
     });
 
     dom.addFilesBtn.addEventListener('click', requestFilePicker);

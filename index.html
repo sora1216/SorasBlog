@@ -9,7 +9,7 @@
 
   <link rel="icon" href="assets/img/favicon.svg?v=2" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/img/favicon.png?v=2">
-  <link rel="stylesheet" href="assets/css/style.css?v=20261027H">
+  <link rel="stylesheet" href="assets/css/style.css?v=20261028c">
 
   <!-- 主题在首帧前应用，避免闪烁 -->
   <script>
@@ -780,17 +780,6 @@
             <span>日期</span>
             <input class="input" type="date" id="logDate">
           </label>
-          <label class="field">
-            <span>分类</span>
-            <input class="input" type="text" id="logKind" maxlength="12" placeholder="随记" list="logKindOptions">
-            <datalist id="logKindOptions">
-              <option value="随记"></option>
-              <option value="胶质"></option>
-              <option value="摄影"></option>
-              <option value="日常"></option>
-              <option value="记录"></option>
-            </datalist>
-          </label>
         </div>
         <label class="field">
           <span>正文</span>
@@ -815,6 +804,22 @@
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <div class="modal" id="logViewModal" hidden>
+    <div class="modal-backdrop" data-close="logViewModal"></div>
+    <div class="modal-card modal-lg" role="dialog" aria-modal="true" aria-labelledby="logViewTitle">
+      <header class="modal-head">
+        <div><span class="eyebrow" id="logViewDate">LOG</span><h3 id="logViewTitle"></h3></div>
+        <button class="icon-btn" type="button" data-close="logViewModal" aria-label="关闭">
+          <svg class="icon"><use href="#i-x"></use></svg>
+        </button>
+      </header>
+      <div class="modal-body">
+        <div class="log-view-body" id="logViewBody"></div>
+        <div class="log-view-photos" id="logViewPhotos" hidden></div>
+      </div>
     </div>
   </div>
 
@@ -902,7 +907,7 @@
 
   <script src="assets/js/db.js"></script>
   <script src="assets/js/github.js?v=20261027j"></script>
-  <script src="assets/js/app.js?v=20261027q"></script>
-  <script src="assets/js/pages.js?v=20261027r"></script>
+  <script src="assets/js/app.js?v=20261028c"></script>
+  <script src="assets/js/pages.js?v=20261028a"></script>
 </body>
 </html>

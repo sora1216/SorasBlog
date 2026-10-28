@@ -2438,7 +2438,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .about-avatar img{width:100%;height:100%;object-fit:cover}
 .about-body h1{margin:9px 0 0 4px;font-size:27px;line-height:1.25;letter-spacing:-.02em}
 .about-line{margin:10px 0 0;max-width:720px;font-size:13.5px;line-height:1.9;color:var(--muted)}
-.about-intro{margin:4px 0 0;max-width:720px;font-size:13.5px;line-height:1.9;color:var(--muted)}
+.about-intro{margin:4px 0 0;max-width:720px;font-size:13.5px;line-height:1.9;color:var(--muted);white-space:pre-line}
 .about-intro:empty{display:none}
 .about-intro-edit{margin-top:6px;padding:4px 0;font-size:11px;color:var(--accent-deep)}
 .about-body .profile-links{display:flex;flex-wrap:wrap;gap:7px;margin-top:13px}
@@ -2658,4 +2658,20 @@ ul { margin: 0; padding: 0; list-style: none; }
   .review-score { min-width: 36px; height: 36px; right: 6px; bottom: 6px; }
   .review-score strong { font-size: 14px; }
   .home-grid .profile-links .chip { font-size: 11.5px; padding: 0 9px; }
+}
+
+/* ---------- 说说详情弹窗（点卡片打开，只读） ---------- */
+.log-card{cursor:pointer}
+.log-card .log-actions,.log-card .log-toggle{cursor:pointer}
+.log-view-body{margin:0;font-size:13.5px;line-height:1.9;color:var(--muted);white-space:pre-wrap;word-break:break-word}
+.log-view-photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:start}
+.log-view-photos.one{grid-template-columns:1fr}
+.log-view-photos.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+.log-view-photos img{width:100%;height:auto;max-height:44vh;object-fit:contain;display:block;border-radius:10px;background:var(--surface-2)}
+.log-view-photos.one img{max-height:62vh}
+@media(max-width:560px){
+  .log-view-photos,.log-view-photos.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .log-view-photos.one{grid-template-columns:1fr}
+  .log-view-photos img{max-height:36vh}
+  .log-view-photos.one img{max-height:52vh}
 }
