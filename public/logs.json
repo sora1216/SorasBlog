@@ -1,6 +1,17 @@
 {
-  "updatedAt": "2026-10-27T17:11:50.382Z",
+  "updatedAt": "2026-10-28T12:59:58.790Z",
   "logs": [
+    {
+      "id": "log_1793192397233",
+      "title": "Test txt v2",
+      "date": "2026-10-28",
+      "kind": "随记",
+      "body": "#include <stdio.h>\n\nint main(void)\n{\n    printf(\"Hello World!\\n\");\n    return 0;\n}",
+      "photos": [],
+      "views": 0,
+      "createdAt": 1793192397233,
+      "updatedAt": 1793192398790
+    },
     {
       "id": "log_1793121099699",
       "title": "そらです！",
