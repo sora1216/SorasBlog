@@ -1705,7 +1705,6 @@ ul { margin: 0; padding: 0; list-style: none; }
   object-fit: contain;
   border-radius: 10px;
   box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.9);
-  animation: modalIn 300ms var(--ease) both;
 }
 
 .lightbox-figure figcaption {
@@ -1920,7 +1919,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   .stats { justify-content: space-between; gap: 10px; }
   .toolbar-right { width: 100%; justify-content: space-between; }
   .storage { flex: 1; width: auto; }
-  .file-actions .icon-btn:nth-child(1) { display: none; }
+  .file-actions .icon-btn.is-danger { display: none; }
 }
 
 /* ---------- reduced motion ---------- */
@@ -2409,7 +2408,7 @@ ul { margin: 0; padding: 0; list-style: none; }
 .review-filters button.is-active{color:var(--accent-deep);border-color:rgba(201,116,146,.4);background:linear-gradient(120deg,rgba(242,184,201,.55),rgba(185,221,201,.45))}
 .review-filters b{font-family:var(--font-mono);font-size:9px;opacity:.7;font-weight:500}
 .review-list{display:flex;flex-direction:column;gap:18px;max-width:1040px}
-.review-card{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;min-height:0;padding:18px;border:1px solid var(--border);border-radius:22px;background:var(--surface);box-shadow:var(--shadow-sm)}
+.review-card{display:grid;grid-template-columns:220px minmax(0,1fr);gap:24px;align-items:start;min-height:0;padding:18px;border:1px solid var(--border);border-radius:22px;background:var(--surface);box-shadow:var(--shadow-sm)}
 .review-cover{position:relative;border-radius:15px;overflow:hidden;background:var(--surface-2);min-height:250px}
 .review-cover img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .review-cover::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,16,18,.42),transparent 55%);pointer-events:none}
@@ -2674,4 +2673,33 @@ ul { margin: 0; padding: 0; list-style: none; }
   .log-view-photos.one{grid-template-columns:1fr}
   .log-view-photos img{max-height:36vh}
   .log-view-photos.one img{max-height:52vh}
+}
+
+/* ---------- 灯箱缩放 ---------- */
+.lightbox-figure { touch-action: none; }
+.lightbox-figure img {
+  transform-origin: center center;
+  will-change: transform;
+  cursor: zoom-in;
+  transition: transform 140ms var(--ease);
+}
+.lightbox.is-zoomed .lightbox-figure img { cursor: grab; }
+.lightbox.is-dragging .lightbox-figure img { cursor: grabbing; transition: none; }
+.lightbox-zoom { display: inline-flex; align-items: center; gap: 4px; }
+.lightbox-zoom .icon-btn { width: 30px; height: 30px; }
+.lightbox-zoom-label {
+  width: auto !important;
+  min-width: 54px;
+  padding: 0 8px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.02em;
+}
+@media (max-width: 760px) {
+  .lightbox { padding: 58px 8px 20px; }
+  .lightbox-nav { width: 38px; height: 38px; }
+  .lightbox-nav.prev { left: 6px; }
+  .lightbox-nav.next { right: 6px; }
+  .lightbox-figure img { max-width: 94vw; max-height: 72vh; }
+  .lightbox-top { padding: 12px 12px; }
 }

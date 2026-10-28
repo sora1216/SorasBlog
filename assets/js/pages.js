@@ -159,6 +159,7 @@
     });
 
     renderFilters();
+    watchReviews();
     scheduleReviewToggles();
   }
 
@@ -277,23 +278,64 @@
   function syncReviewToggles() {
     var list = document.getElementById('reviewList');
     if (!list) return;
+    /* 页面还没显示（display:none）时量不到真实高度，先跳过，等它可见再算 */
+    if (!list.clientHeight) return;
     Array.prototype.forEach.call(list.querySelectorAll('.review-card'), function (card) {
       var text = card.querySelector('.review-text');
       var toggle = card.querySelector('.review-toggle');
       if (!text || !toggle) return;
       if (text.classList.contains('is-open')) { toggle.style.display = ''; return; }
+      if (!text.clientHeight) return;
       var clamped = text.scrollHeight > text.clientHeight + 2;
       toggle.style.display = clamped ? '' : 'none';
     });
   }
 
-  function scheduleReviewToggles() {
-    requestAnimationFrame(function () {
-      syncReviewToggles();
-      if (document.fonts && document.fonts.ready) {
-        document.fonts.ready.then(function () { requestAnimationFrame(syncReviewToggles); });
+  /* reviewList 一旦可见 / 宽度变化就重算一次，避免「首次打开没有展开按钮、刷新才有」 */
+  var reviewResizeObserver = null;
+  var reviewVisibleObserver = null;
+
+  function watchReviews() {
+    var list = document.getElementById('reviewList');
+    if (!list) return;
+    if (typeof ResizeObserver === 'function') {
+      if (!reviewResizeObserver) {
+        reviewResizeObserver = new ResizeObserver(function () { syncReviewToggles(); });
       }
-    });
+      reviewResizeObserver.observe(list);
+      Array.prototype.forEach.call(list.querySelectorAll('.review-text'), function (node) {
+        reviewResizeObserver.observe(node);
+      });
+    }
+    if (typeof IntersectionObserver === 'function' && !reviewVisibleObserver) {
+      reviewVisibleObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) { if (entry.isIntersecting) syncReviewToggles(); });
+      });
+    }
+    if (reviewVisibleObserver) reviewVisibleObserver.observe(list);
+  }
+
+  function scheduleReviewToggles() {
+    syncReviewToggles();
+    watchdogReviewToggles();
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(function () { syncReviewToggles(); });
+    }
+  }
+
+  function watchdogReviewToggles() {
+    var tries = 0;
+    var timer = setInterval(function () {
+      tries += 1;
+      syncReviewToggles();
+      var list = document.getElementById('reviewList');
+      var pending = list && Array.prototype.some.call(list.querySelectorAll('.review-card'), function (card) {
+        var text = card.querySelector('.review-text');
+        var toggle = card.querySelector('.review-toggle');
+        return text && toggle && !text.clientHeight;
+      });
+      if (!pending || tries > 20) clearInterval(timer);
+    }, 250);
   }
 
   function closeModal(id) { var m = document.getElementById(id); if (m) m.hidden = true; }
