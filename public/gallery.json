@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-10-22T13:33:09.973Z",
+  "updatedAt": "2026-10-28T12:31:55.824Z",
   "photos": [
+    {
+      "id": "ph_1793190715824_0",
+      "title": "TAiTO 童话仙境 初音未来 长发公主",
+      "caption": "TAiTO 童话仙境 初音未来 长发公主",
+      "name": "TAiTO 童话仙境 初音未来 长发公主.jpg",
+      "path": "public/gallery/TAiTO 童话仙境 初音未来 长发公主.jpg",
+      "url": "public/gallery/TAiTO 童话仙境 初音未来 长发公主.jpg",
+      "size": 327805,
+      "width": 1280,
+      "height": 1920,
+      "createdAt": 1793190715824,
+      "sha": "f4a298a63ca3e95ec02151cb5737d3dd70be84a3"
+    },
     {
       "id": "ph_1792675989973_0",
       "title": "Myethos 流萤 春日手信",
