@@ -1,6 +1,14 @@
 {
-  "updatedAt": "2026-10-29T06:23:17.912Z",
+  "updatedAt": "2026-10-29T06:25:44.620Z",
   "files": [
+    {
+      "name": "以8.7.9系统为例基于WV的库卡机器人基础配置.pdf",
+      "path": "public/files/以8.7.9系统为例基于WV的库卡机器人基础配置.pdf",
+      "size": 2891573,
+      "mime": "application/pdf",
+      "sha": "daf3129841a12e63d863f99dbcd5068fa95de568",
+      "createdAt": 1793255144620
+    },
     {
       "name": "KUKA多版本功能包",
       "url": "https://pan.baidu.com/s/1i__TBmC3LNt3PWO70HulZg?pwd=Sora",
