@@ -1,6 +1,27 @@
 {
-  "updatedAt": "2026-11-03T15:57:25.308Z",
+  "updatedAt": "2026-11-18T09:54:52.876Z",
   "logs": [
+    {
+      "id": "log_1794995653008",
+      "title": "ミク最高！！！",
+      "date": "2026-11-18",
+      "kind": "随记",
+      "body": "GT7摄影模式是神，2025GSR涂装太帅了",
+      "photos": [
+        "public/logs/log_1794995653008/p1-1794995653009.webp",
+        "public/logs/log_1794995653008/p2-1794995657171.webp",
+        "public/logs/log_1794995653008/p3-1794995661777.webp",
+        "public/logs/log_1794995653008/p4-1794995665669.webp",
+        "public/logs/log_1794995653008/p5-1794995670378.webp",
+        "public/logs/log_1794995653008/p6-1794995675274.webp",
+        "public/logs/log_1794995653008/p7-1794995680213.webp",
+        "public/logs/log_1794995653008/p8-1794995684098.webp",
+        "public/logs/log_1794995653008/p9-1794995687651.webp"
+      ],
+      "views": 0,
+      "createdAt": 1794995692456,
+      "updatedAt": 1794995692874
+    },
     {
       "id": "log_1793721439536",
       "title": "完结撒花",
